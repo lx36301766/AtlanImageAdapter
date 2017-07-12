@@ -1,0 +1,58 @@
+
+apply plugin: 'kotlin-android'
+
+android {
+
+    compileSdkVersion Integer.parseInt("${COMPILE_SDK_VERSION}")
+    buildToolsVersion "${BUILD_TOOLS_VERSION}"
+
+    lintOptions {
+        abortOnError false
+    }
+
+    defaultConfig {
+        minSdkVersion Integer.parseInt("${MIN_SDK_VERSION}")
+        targetSdkVersion Integer.parseInt("${TARGET_SDK_VERSION}")
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+
+        def keystorePath = rootDir.absolutePath + "/gradle_config/atlantischi.jks"
+
+        debug {
+            storeFile file(keystorePath)
+            storePassword "5393147"
+            keyAlias "xuanl"
+            keyPassword "5393147"
+            v2SigningEnabled false
+        }
+
+        release {
+            storeFile file(keystorePath)
+            storePassword "5393147"
+            keyAlias "xuanl"
+            keyPassword "5393147"
+            v2SigningEnabled false
+        }
+    }
+
+    buildTypes {
+        release {
+            debuggable true
+            zipAlignEnabled true
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable true
+            zipAlignEnabled true
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+
+}

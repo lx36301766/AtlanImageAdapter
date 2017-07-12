@@ -18,15 +18,6 @@ ext {
             annotations : "com.android.support:support-annotations:${SUPPORT_VERSION}",
     ]
 
-    GOOGLE_AGERA_VERSION = '1.3.0'
-    GOOGLE_AGERA = [
-            content      : "com.google.android.agera:content:${GOOGLE_AGERA_VERSION}",
-            database     : "com.google.android.agera:database:${GOOGLE_AGERA_VERSION}",
-            net          : "com.google.android.agera:net:${GOOGLE_AGERA_VERSION}",
-            rvadapter    : "com.google.android.agera:rvadapter:${GOOGLE_AGERA_VERSION}",
-            rvdatabinding: "com.google.android.agera:rvdatabinding:${GOOGLE_AGERA_VERSION}",
-    ]
-
     GLIDE_VERSION = '4.0.0-RC1'
     GLIDE = [
             glide   : "com.github.bumptech.glide:glide:${GLIDE_VERSION}",
@@ -65,6 +56,12 @@ ext {
             fastjson_android: "com.alibaba:fastjson:1.1.58.android",
     ]
 
+    LOG = [
+            klog  : "com.github.zhaokaiqiang.klog:library:1.6.0",
+            timber: "com.jakewharton.timber:timber:4.5.1",
+            logger: "com.orhanobut:logger:2.1.1",
+    ]
+
 
 
     DEPS = [
@@ -78,3 +75,4 @@ ext {
     ]
 
 }
+

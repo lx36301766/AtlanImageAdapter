@@ -1,5 +1,7 @@
 package pl.atlantischi.ximagebridge.interfaces;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.widget.ImageView;
 
 /**
@@ -8,6 +10,12 @@ import android.widget.ImageView;
 
 public interface XBridge {
 
-    void display(String url, ImageView imageView);
+    void display(Uri uri, ImageView imageView);
+
+    void getBitmapFromUri(Uri uri, BitmapLoader bitmapLoader);
+
+    interface BitmapLoader {
+        void onBitmapLoaded(Bitmap bitmap);
+    }
 
 }

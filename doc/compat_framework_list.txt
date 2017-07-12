@@ -1,0 +1,13 @@
+
+name                      version
+
+
+Glide                     4.0.0-RC1
+
+Picasso                   2.5.2
+
+Fresco                    1.3.0
+
+UniversalImageLoader ?    1.9.5
+
+custom demo               x.x.x

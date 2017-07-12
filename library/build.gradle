@@ -20,5 +20,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile "${SUPPORT_DEPS.appcompatV7}"
 
+    compile "${LOG.timber}"
 
 }

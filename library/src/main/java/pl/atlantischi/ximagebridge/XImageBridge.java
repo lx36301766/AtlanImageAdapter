@@ -68,27 +68,9 @@ public class XImageBridge {
         return mAppContext;
     }
 
-    public void display(Uri uri, ImageView imageView) {
-        if (mXBridge != null) {
-            mXBridge.display(uri, imageView);
-        }
-    }
-
     public void getBitmapFromUri(Uri uri, XBridge.BitmapLoader bitmapLoader) {
         if (mXBridge != null) {
             mXBridge.getBitmapFromUri(uri, bitmapLoader);
-        }
-    }
-
-    public void displayAsCircle(Uri uri, ImageView imageView) {
-        if (mXBridge != null) {
-            mXBridge.displayAsCircle(uri, imageView);
-        }
-    }
-
-    public void displayAsRoundCorner(Uri uri,  ImageView imageView) {
-        if (mXBridge != null) {
-            mXBridge.displayAsRoundCorner(uri, imageView);
         }
     }
 

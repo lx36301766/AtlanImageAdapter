@@ -3,6 +3,7 @@ package pl.atlantischi.ximagebridge;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.widget.ImageView;
@@ -17,28 +18,92 @@ import timber.log.Timber;
 
 public class XImageBridge2 {
 
+    @SuppressLint("StaticFieldLeak")
     private static XImageBridge2 singleton;
+
+    private Context mAppContext;
+
+    private XBridge mXBridge;
+
+    private Options mOptions;
 
     public static XImageBridge2 get(Context context) {
         if (singleton == null) {
             synchronized (XImageBridge2.class) {
                 if (singleton == null) {
-//                    singleton = new XImageBridge2(context).build();
+                    singleton = new XImageBridge2.Builder(context).build();
                 }
             }
         }
         return singleton;
     }
 
-    private XBridge mXBridge;
+    private XImageBridge2(Context context) {
+        init(context);
+    }
 
-    private Context mAppContext;
-
-    public void init(Context context) {
+    private void init(Context context) {
         mAppContext = context.getApplicationContext();
         setDefaultBridge();
     }
 
+    public static class Options {
+
+        /**
+         *
+         */
+        public boolean isCircle;
+
+        /**
+         *
+         */
+        public int roundCorner;
+
+    }
+
+    /**
+     *
+     */
+    public static class Builder {
+
+        Context context;
+        public boolean mIsCircle;
+        public int mRoundCorner;
+
+        public Builder(Context context) {
+            this.context = context;
+            reset();
+        }
+
+        public Builder setShowAsCircle(boolean isCircle) {
+            mIsCircle = isCircle;
+            return this;
+        }
+
+        public Builder setRoundCorner(int corner) {
+            mRoundCorner = corner;
+            return this;
+        }
+
+        public Builder reset() {
+            mIsCircle = false;
+            mRoundCorner = -1;
+            return this;
+        }
+
+        public XImageBridge2 build() {
+            XImageBridge2 xImageBridge2 = new XImageBridge2(context);
+            xImageBridge2.mOptions = new Options();
+            xImageBridge2.mOptions.isCircle = mIsCircle;
+            xImageBridge2.mOptions.roundCorner = mRoundCorner;
+            return xImageBridge2;
+        }
+
+    }
+
+    /**
+     *
+     */
     public void setDefaultBridge() {
         Class<?> bridgeClass = null;
         try {
@@ -49,6 +114,10 @@ public class XImageBridge2 {
         setBridge(bridgeClass);
     }
 
+    /**
+     *
+     * @param bridgeClass
+     */
     public void setBridge(Class bridgeClass) {
         if (bridgeClass != null && XBridge.class.isAssignableFrom(bridgeClass)) {
             try {
@@ -74,8 +143,12 @@ public class XImageBridge2 {
     }
 
     public void display(Uri uri, ImageView imageView) {
+        display(uri, imageView, null);
+    }
+
+    public void display(Uri uri, ImageView imageView, Options options) {
         if (mXBridge != null) {
-            mXBridge.display(uri, imageView);
+            mXBridge.display(uri, imageView, options);
         }
     }
 
@@ -84,18 +157,5 @@ public class XImageBridge2 {
             mXBridge.getBitmapFromUri(uri, bitmapLoader);
         }
     }
-
-    public void displayAsCircle(Uri uri, ImageView imageView) {
-        if (mXBridge != null) {
-            mXBridge.displayAsCircle(uri, imageView);
-        }
-    }
-
-    public void displayAsRoundCorner(Uri uri,  ImageView imageView) {
-        if (mXBridge != null) {
-            mXBridge.displayAsRoundCorner(uri, imageView);
-        }
-    }
-
 
 }

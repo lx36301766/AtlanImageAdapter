@@ -19,7 +19,7 @@ public class SimpleMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ximage_compat);
 
         final ImageView iv = (ImageView) findViewById(R.id.imageView);
-        mXImageBridge.displayAsRoundCorner(Uri.parse(url), iv);
+//        mXImageBridge.displayAsRoundCorner(Uri.parse(url), iv);
 
 //        mXImageBridge.getBitmapFromUri(Uri.parse(url), new XBridge.BitmapLoader() {
 //            @Override

@@ -9,6 +9,9 @@ import android.net.Uri;
 import android.widget.ImageView;
 import pl.atlantischi.ximagebridge.XImageBridge;
 import pl.atlantischi.ximagebridge.interfaces.XBridge;
+import pl.atlantischi.ximagebridge.picasso.transformation.CircleTransform;
+import pl.atlantischi.ximagebridge.picasso.transformation.CropToCircleTransformation;
+import pl.atlantischi.ximagebridge.picasso.transformation.RoundedCornersTransformation;
 
 /**
  * Created by admin on 2017/7/7.
@@ -19,6 +22,17 @@ public class PicassoBridge implements XBridge {
     @Override
     public void display(Uri uri, ImageView imageView) {
         Picasso.with(imageView.getContext()).load(uri).into(imageView);
+    }
+
+    @Override
+    public void displayAsCircle(Uri uri, ImageView imageView) {
+        Picasso.with(imageView.getContext()).load(uri).transform(new CircleTransform()).into(imageView);
+    }
+
+    @Override
+    public void displayAsRoundCorner(Uri uri, ImageView imageView) {
+        Picasso.with(imageView.getContext()).load(uri).transform(new RoundedCornersTransformation(50, 30)).into
+                (imageView);
     }
 
     //Picasso的坑，target在内部是个弱引用，外部使用时必须保持强引用，否则没有回调

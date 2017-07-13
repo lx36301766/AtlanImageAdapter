@@ -15,14 +15,19 @@ import timber.log.Timber;
  * @author lx
  */
 
-public class XImageBridge {
+public class XImageBridge2 {
 
-    private static class InstanceHolder {
-        private static XImageBridge mInstance = new XImageBridge();
-    }
+    private static XImageBridge2 singleton;
 
-    public static XImageBridge getInstance() {
-        return InstanceHolder.mInstance;
+    public static XImageBridge2 get(Context context) {
+        if (singleton == null) {
+            synchronized (XImageBridge2.class) {
+                if (singleton == null) {
+//                    singleton = new XImageBridge2(context).build();
+                }
+            }
+        }
+        return singleton;
     }
 
     private XBridge mXBridge;

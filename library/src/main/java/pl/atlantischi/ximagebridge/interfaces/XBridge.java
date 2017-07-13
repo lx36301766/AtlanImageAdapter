@@ -12,6 +12,10 @@ public interface XBridge {
 
     void display(Uri uri, ImageView imageView);
 
+    void displayAsCircle(Uri uri, ImageView imageView);
+
+    void displayAsRoundCorner(Uri uri, ImageView imageView);
+
     void getBitmapFromUri(Uri uri, BitmapLoader bitmapLoader);
 
     interface BitmapLoader {

@@ -1,12 +1,10 @@
 package pl.atlantischi.ximagebridge.simple;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import pl.atlantischi.ximagebridge.XImageBridge;
-import pl.atlantischi.ximagebridge.interfaces.XBridge;
 
 public class SimpleMainActivity extends AppCompatActivity {
 
@@ -21,7 +19,7 @@ public class SimpleMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ximage_compat);
 
         final ImageView iv = (ImageView) findViewById(R.id.imageView);
-        mXImageBridge.display(Uri.parse(url), iv);
+        mXImageBridge.displayAsRoundCorner(Uri.parse(url), iv);
 
 //        mXImageBridge.getBitmapFromUri(Uri.parse(url), new XBridge.BitmapLoader() {
 //            @Override

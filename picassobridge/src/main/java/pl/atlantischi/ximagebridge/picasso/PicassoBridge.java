@@ -1,37 +1,40 @@
 package pl.atlantischi.ximagebridge.picasso;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
+import com.squareup.picasso.Transformation;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 import pl.atlantischi.ximagebridge.XImageBridge;
-import pl.atlantischi.ximagebridge.XImageBridge2;
-import pl.atlantischi.ximagebridge.interfaces.XBridge;
+import pl.atlantischi.ximagebridge.interfaces.IPicassoBridge;
 import pl.atlantischi.ximagebridge.picasso.transformation.CircleTransform;
-import pl.atlantischi.ximagebridge.picasso.transformation.CropToCircleTransformation;
 import pl.atlantischi.ximagebridge.picasso.transformation.RoundedCornersTransformation;
 
 /**
  * Created by admin on 2017/7/7.
  */
 
-public class PicassoBridge implements XBridge {
+public class PicassoBridge implements IPicassoBridge {
 
     @Override
-    public void display(Uri uri, ImageView imageView, XImageBridge2.Options options) {
-        if (options == null) {
-            Picasso.with(imageView.getContext()).load(uri).into(imageView);
-        } else {
+    public void display(Uri uri, ImageView imageView, XImageBridge.Options options) {
+        RequestCreator requestCreator = Picasso.with(imageView.getContext()).load(uri);
+        Transformation transformation = null;
+        if (options != null) {
             if (options.isCircle) {
-                Picasso.with(imageView.getContext()).load(uri).transform(new CircleTransform()).into(imageView);
+                transformation = new CircleTransform();
             } else if (options.roundCorner > 0) {
-                Picasso.with(imageView.getContext()).load(uri).transform(new RoundedCornersTransformation(
-                        options.roundCorner, 0)).into(imageView);
+                transformation = new RoundedCornersTransformation(options.roundCorner, 0);
             }
         }
+        if (transformation != null) {
+            requestCreator.transform(transformation);
+        }
+        requestCreator.into(imageView);
     }
 
 
@@ -56,7 +59,7 @@ public class PicassoBridge implements XBridge {
 
             }
         };
-        Picasso.with(XImageBridge.getInstance().getContext()).load(uri.toString()).into(mTarget);
+        Picasso.with(XImageBridge.obtain().getContext()).load(uri.toString()).into(mTarget);
     }
 
 }

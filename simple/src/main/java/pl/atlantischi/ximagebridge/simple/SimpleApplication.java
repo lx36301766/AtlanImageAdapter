@@ -1,7 +1,7 @@
 package pl.atlantischi.ximagebridge.simple;
 
 import android.app.Application;
-import pl.atlantischi.ximagebridge.*;
+import pl.atlantischi.ximagebridge.XImageBridge;
 import timber.log.Timber;
 
 /**
@@ -15,7 +15,8 @@ public class SimpleApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        XImageBridge.getInstance().init(this);
+
+        XImageBridge.obtain().init(this);
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());

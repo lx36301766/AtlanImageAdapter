@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 apply from: rootDir.absolutePath + "/gradle_config/base_config.gradle"
 apply from: rootDir.absolutePath + "/gradle_config/deps_config.gradle"
@@ -6,7 +6,6 @@ apply from: rootDir.absolutePath + "/gradle_config/deps_config.gradle"
 android {
 
     defaultConfig {
-        applicationId "pl.atlantischi.ximagebriage.simple"
         versionCode 1
         versionName "1.0"
     }
@@ -14,7 +13,6 @@ android {
 }
 
 dependencies {
-
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -23,12 +21,6 @@ dependencies {
     compile "${DEPS.constraint_layout}"
 
     compile project(':library')
-//    compile project(':picassobridge')
-    compile project(':frescobridge')
 
-//    compile "${FACEBOOK.fresco}"
-//    compile "${GLIDE.glide}"
-//    annotationProcessor "${GLIDE.compiler}"
-//    compile "${DEPS.universal_image_loader}"
-
+    compile "${FACEBOOK.fresco}"
 }

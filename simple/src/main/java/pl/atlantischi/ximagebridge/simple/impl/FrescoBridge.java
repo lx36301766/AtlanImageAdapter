@@ -3,13 +3,13 @@
 //import com.facebook.drawee.backends.pipeline.Fresco;
 //
 //import android.widget.ImageView;
-//import pl.atlantischi.ximagebridge.interfaces.Bridge;
+//import pl.atlantischi.ximagebridge.interfaces.ImageBridge;
 //
 ///**
 // * Created by admin on 2017/7/7.
 // */
 //
-//public class FrescoBridge implements Bridge {
+//public class FrescoBridge implements ImageBridge {
 //
 //    @Override
 //    public void display(String url, ImageView imageView) {

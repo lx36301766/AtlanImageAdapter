@@ -1,18 +1,14 @@
 package pl.atlantischi.ximagebridge.interfaces;
 
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
-import android.view.View;
+import android.app.Activity;
+import android.widget.ImageView;
 
 /**
  * Created by admin on 2017/7/15.
  */
 
-public interface IFrescoBridge extends Bridge {
+public interface IFrescoBridge<I extends ImageView> extends ImageBridge<I> {
 
-    View transformFrescoView(String name, Context context, AttributeSet attrs);
-
-    void transformFrescoViewForAppCompat(AppCompatActivity activity);
+    void transformFrescoView(Activity activity);
 
 }

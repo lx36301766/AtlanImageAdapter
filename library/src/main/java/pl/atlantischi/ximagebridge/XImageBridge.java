@@ -4,13 +4,11 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ImageView;
-import pl.atlantischi.ximagebridge.interfaces.Bridge;
+import pl.atlantischi.ximagebridge.interfaces.ImageBridge;
 import pl.atlantischi.ximagebridge.interfaces.IFrescoBridge;
 import timber.log.Timber;
 
@@ -27,7 +25,7 @@ public class XImageBridge {
 
     private Context mAppContext;
 
-    private Bridge mBridge;
+    private ImageBridge mImageBridge;
 
     private Options mOptions;
 
@@ -50,18 +48,27 @@ public class XImageBridge {
         setDefaultBridge();
     }
 
-    public View compatFresco(String name, Context context, AttributeSet attrs) {
-        if (mBridge instanceof IFrescoBridge) {
-            return ((IFrescoBridge) mBridge).transformFrescoView(name, context, attrs);
+//    public View compatFresco(String name, Context context, AttributeSet attrs) {
+//        if (mImageBridge instanceof IFrescoBridge) {
+//            return ((IFrescoBridge) mImageBridge).transformFrescoView(name, context, attrs);
+//        }
+//        return null;
+//    }
+
+    public void compatFresco(Activity activity) {
+        if (mImageBridge instanceof IFrescoBridge) {
+            ((IFrescoBridge) mImageBridge).transformFrescoView(activity);
         }
-        return null;
     }
 
-    public void compatFrescoWithAppCompat(AppCompatActivity activity) {
-        if (mBridge instanceof IFrescoBridge) {
-            ((IFrescoBridge) mBridge).transformFrescoViewForAppCompat(activity);
-        }
+    public ImageBridge getBridge() {
+        return mImageBridge;
     }
+
+    /**
+     *
+     */
+    public static int MAX_RADIUS = 25;
 
     public static class Options {
 
@@ -74,6 +81,16 @@ public class XImageBridge {
          *
          */
         public int roundCorner;
+
+        /**
+         *
+         */
+        public int blurRadius;
+
+        /**
+         *
+         */
+        public int[] size;
 
     }
 
@@ -142,10 +159,10 @@ public class XImageBridge {
      * @param bridgeClass
      */
     public void setBridge(Class bridgeClass) {
-        if (bridgeClass != null && Bridge.class.isAssignableFrom(bridgeClass)) {
+        if (bridgeClass != null && ImageBridge.class.isAssignableFrom(bridgeClass)) {
             try {
                 Constructor<?> constructor = bridgeClass.getConstructor();
-                mBridge = (Bridge) constructor.newInstance();
+                mImageBridge = (ImageBridge) constructor.newInstance();
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -156,8 +173,8 @@ public class XImageBridge {
                 e.printStackTrace();
             }
         }
-        if (mBridge == null) {
-            Timber.e("cannot find instance implements Bridge");
+        if (mImageBridge == null) {
+            Timber.e("cannot find Object implements ImageBridge interface");
         }
     }
 
@@ -170,14 +187,14 @@ public class XImageBridge {
     }
 
     public void display(Uri uri, ImageView imageView, Options options) {
-        if (mBridge != null) {
-            mBridge.display(uri, imageView, options);
+        if (mImageBridge != null) {
+            mImageBridge.display(uri, imageView, options);
         }
     }
 
-    public void getBitmapFromUri(Uri uri, Bridge.BitmapLoader bitmapLoader) {
-        if (mBridge != null) {
-            mBridge.getBitmapFromUri(uri, bitmapLoader);
+    public void getBitmapFromUri(Uri uri, ImageBridge.BitmapLoader bitmapLoader) {
+        if (mImageBridge != null) {
+            mImageBridge.getBitmapFromUri(uri, bitmapLoader);
         }
     }
 

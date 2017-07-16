@@ -1,20 +1,19 @@
 
-Common Functions:
-
 display image with url
-get Bitmap
 image corner
 Blur effect
 image size process
-Progress monitoring
-gif
-MemoryCache/DiskCache
+#scale type
+get Bitmap
 
 
-Not Common Functions:
+#Progress monitoring
+#gif
+#MemoryCache/DiskCache
 
-WebP
-cache hit/miss
-streaming fuzzy progressive
-stop loading image
-okhttp/volley support
+
+#WebP
+#cache hit/miss
+#streaming fuzzy progressive
+#stop loading image
+#okhttp/volley support

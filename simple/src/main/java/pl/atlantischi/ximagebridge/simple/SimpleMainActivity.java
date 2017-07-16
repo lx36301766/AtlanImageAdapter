@@ -22,15 +22,22 @@ public class SimpleMainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        XImageBridge.obtain().compatFrescoWithAppCompat(this);
+        XImageBridge.obtain().compatFresco(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ximage_compat);
 
-        final ImageView iv = (ImageView) findViewById(R.id.imageView);
-        XImageBridge.obtain().display(Uri.parse(url), iv);
+        setTitle(XImageBridge.obtain().getBridge().getClass().getSimpleName());
 
-//        mXImageBridge.getBitmapFromUri(Uri.parse(url), new Bridge.BitmapLoader() {
+        final ImageView iv = (ImageView) findViewById(R.id.imageView);
+        XImageBridge.Options options = new XImageBridge.Options();
+//        options.isCircle = true;
+        options.roundCorner = 50;
+//        options.blurRadius = 10;
+        options.size = new int[] {600, 400};
+        XImageBridge.obtain().display(Uri.parse(url), iv, options);
+
+//        mXImageBridge.getBitmapFromUri(Uri.parse(url), new ImageBridge.BitmapLoader() {
 //            @Override
 //            public void onBitmapLoaded(Bitmap bitmap) {
 //                iv.setImageBitmap(bitmap);

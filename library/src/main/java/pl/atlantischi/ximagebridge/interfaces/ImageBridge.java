@@ -9,9 +9,9 @@ import pl.atlantischi.ximagebridge.XImageBridge;
  * Created by admin on 2017/7/7.
  */
 
-public interface Bridge {
+public interface ImageBridge<I extends ImageView> {
 
-    void display(Uri uri, ImageView imageView, XImageBridge.Options options);
+    void display(Uri uri, I imageView, XImageBridge.Options options);
 
     void getBitmapFromUri(Uri uri, BitmapLoader bitmapLoader);
 

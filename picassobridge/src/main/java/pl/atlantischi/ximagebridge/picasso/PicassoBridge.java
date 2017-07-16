@@ -1,16 +1,21 @@
 package pl.atlantischi.ximagebridge.picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
 import com.squareup.picasso.Transformation;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 import pl.atlantischi.ximagebridge.XImageBridge;
 import pl.atlantischi.ximagebridge.interfaces.IPicassoBridge;
+import pl.atlantischi.ximagebridge.picasso.transformation.BlurTransformation;
 import pl.atlantischi.ximagebridge.picasso.transformation.CircleTransform;
 import pl.atlantischi.ximagebridge.picasso.transformation.RoundedCornersTransformation;
 
@@ -22,17 +27,24 @@ public class PicassoBridge implements IPicassoBridge {
 
     @Override
     public void display(Uri uri, ImageView imageView, XImageBridge.Options options) {
-        RequestCreator requestCreator = Picasso.with(imageView.getContext()).load(uri);
-        Transformation transformation = null;
+        Context context = imageView.getContext();
+        RequestCreator requestCreator = Picasso.with(context).load(uri);
         if (options != null) {
-            if (options.isCircle) {
-                transformation = new CircleTransform();
-            } else if (options.roundCorner > 0) {
-                transformation = new RoundedCornersTransformation(options.roundCorner, 0);
+            if (options.size.length == 2) {
+                int imageWidth = options.size[0];
+                int imageHeight = options.size[1];
+                requestCreator.resize(imageWidth, imageHeight);
             }
-        }
-        if (transformation != null) {
-            requestCreator.transform(transformation);
+            List<Transformation> transformationList = new ArrayList<>();
+            if (options.isCircle) {
+                transformationList.add(new CircleTransform());
+            } else if (options.roundCorner > 0) {
+                transformationList.add(new RoundedCornersTransformation(options.roundCorner, 0));
+            }
+            if (options.blurRadius > 0) {
+                transformationList.add(new BlurTransformation(context, options.blurRadius));
+            }
+            requestCreator.transform(transformationList);
         }
         requestCreator.into(imageView);
     }

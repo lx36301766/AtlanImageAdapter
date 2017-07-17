@@ -1,0 +1,12 @@
+
+
+
+fresco尽量不要使用getBitmap方法，因为fresco采用Ashmem匿名共享内存机制
+    http://www.mamicode.com/info-detail-1448579.html
+
+
+fresco SimpleDraweeView 不支持wrap_content
+    https://www.fresco-cn.org/docs/wrap-content.html
+    https://stackoverflow.com/questions/33955510/facebook-fresco-using-wrap-conent/34075281#34075281
+
+

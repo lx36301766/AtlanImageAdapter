@@ -43,7 +43,7 @@ public class XImageBridge {
     private XImageBridge() {
     }
 
-    public void init(Context context) {
+    public void initialize(Context context) {
         mAppContext = context.getApplicationContext();
         setDefaultBridge();
     }
@@ -99,36 +99,53 @@ public class XImageBridge {
      */
     public static class Builder {
 
-//        Context context;
-        public boolean mIsCircle;
-        public int mRoundCorner;
+        Options mOptions;
 
         public Builder() {
-//            this.context = context;
             reset();
         }
 
         public Builder setShowAsCircle(boolean isCircle) {
-            mIsCircle = isCircle;
+            if (mOptions != null) {
+                mOptions.isCircle = isCircle;
+            }
             return this;
         }
 
         public Builder setRoundCorner(int corner) {
-            mRoundCorner = corner;
+            if (mOptions != null) {
+                mOptions.roundCorner = corner;
+            }
+            return this;
+        }
+
+        public Builder setBlurRadius(int radius) {
+            if (mOptions != null) {
+                mOptions.blurRadius = radius;
+            }
+            return this;
+        }
+
+        public Builder setSize(int[] size) {
+            if (mOptions != null) {
+                mOptions.size = new int[size.length];
+                System.arraycopy(size, 0, mOptions.size, 0, size.length);
+            }
             return this;
         }
 
         public Builder reset() {
-            mIsCircle = false;
-            mRoundCorner = -1;
+            mOptions = new Options();
+            mOptions.isCircle = false;
+            mOptions.roundCorner = -1;
+            mOptions.blurRadius = -1;
+            mOptions.size = new int[] {};
             return this;
         }
 
         public XImageBridge build() {
             XImageBridge xImageBridge = new XImageBridge();
-            xImageBridge.mOptions = new Options();
-            xImageBridge.mOptions.isCircle = mIsCircle;
-            xImageBridge.mOptions.roundCorner = mRoundCorner;
+            xImageBridge.mOptions = mOptions;
             return xImageBridge;
         }
 

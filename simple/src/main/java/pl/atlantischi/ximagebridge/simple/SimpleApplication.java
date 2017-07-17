@@ -16,7 +16,7 @@ public class SimpleApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        XImageBridge.obtain().init(this);
+        XImageBridge.obtain().initialize(this);
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());

@@ -1,4 +1,4 @@
-package pl.atlantischi.ximagebridge.fresco;
+package pl.atlantischi.ximagebridge.fresco.listeners;
 
 /**
  * Created by admin on 2017/7/17.

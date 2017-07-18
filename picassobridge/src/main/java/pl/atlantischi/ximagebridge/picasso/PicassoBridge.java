@@ -25,30 +25,38 @@ import pl.atlantischi.ximagebridge.picasso.transformation.RoundedCornersTransfor
 
 public class PicassoBridge implements IPicassoBridge {
 
+    private Context mContext;
+
+    public PicassoBridge() {
+        mContext = XImageBridge.obtain().getContext();
+    }
+
     @Override
     public void display(Uri uri, ImageView imageView, XImageBridge.Options options) {
-        Context context = imageView.getContext();
-        RequestCreator requestCreator = Picasso.with(context).load(uri);
+        RequestCreator requestCreator = Picasso.with(mContext).load(uri);
         if (options != null) {
-            if (options.size.length == 2) {
-                int imageWidth = options.size[0];
-                int imageHeight = options.size[1];
+            if (options.size != null && options.size.isValid()) {
+                int imageWidth = options.size.width;
+                int imageHeight = options.size.height;
                 requestCreator.resize(imageWidth, imageHeight);
             }
-            List<Transformation> transformationList = new ArrayList<>();
-            if (options.isCircle) {
-                transformationList.add(new CircleTransform());
-            } else if (options.roundCorner > 0) {
-                transformationList.add(new RoundedCornersTransformation(options.roundCorner, 0));
-            }
-            if (options.blurRadius > 0) {
-                transformationList.add(new BlurTransformation(context, options.blurRadius));
-            }
-            requestCreator.transform(transformationList);
+            requestCreator.transform(buildTransformations(options));
         }
         requestCreator.into(imageView);
     }
 
+    private List<Transformation> buildTransformations(XImageBridge.Options options) {
+        List<Transformation> transformationList = new ArrayList<>();
+        if (options.isCircle) {
+            transformationList.add(new CircleTransform());
+        } else if (options.roundCorner > 0) {
+            transformationList.add(new RoundedCornersTransformation(options.roundCorner, 0));
+        }
+        if (options.blurRadius > 0) {
+            transformationList.add(new BlurTransformation(mContext, options.blurRadius));
+        }
+        return transformationList;
+    }
 
     //Picasso的坑，target在内部是个弱引用，外部使用时必须保持强引用，否则没有回调
     private Target mTarget;
@@ -71,7 +79,7 @@ public class PicassoBridge implements IPicassoBridge {
 
             }
         };
-        Picasso.with(XImageBridge.obtain().getContext()).load(uri.toString()).into(mTarget);
+        Picasso.with(mContext).load(uri.toString()).into(mTarget);
     }
 
 }

@@ -7,8 +7,18 @@ import android.widget.ImageView;
  * Created by admin on 2017/7/15.
  */
 
-public interface IFrescoBridge<I extends ImageView> extends ImageBridge<I> {
+public interface IFrescoBridge extends ImageBridge {
 
-    void transformFrescoView(Activity activity);
+    /**
+     *
+     * @param activity
+     */
+    void replaceToDraweeView(Activity activity, boolean defaultReplace);
+
+    /**
+     *
+     * @param support
+     */
+    void setDefaultSupportWrapContent(boolean support);
 
 }

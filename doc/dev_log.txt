@@ -21,3 +21,5 @@ fresco SimpleDraweeView 不支持wrap_content
     https://stackoverflow.com/questions/33955510/facebook-fresco-using-wrap-conent/34075281#34075281
 
 
+fresco ResizeOptions只能缩小，不能放大图片，只能粗略地控制。图片不能修改为确定的尺寸
+    https://www.fresco-cn.org/docs/resizing-rotating.html

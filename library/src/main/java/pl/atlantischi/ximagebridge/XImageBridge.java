@@ -29,6 +29,11 @@ public class XImageBridge {
 
     private Options mOptions;
 
+    /**
+     *
+     */
+    public static int MAX_RADIUS = 25;
+
     public static XImageBridge obtain() {
         if (singleton == null) {
             synchronized (XImageBridge.class) {
@@ -46,124 +51,6 @@ public class XImageBridge {
     public void initialize(Context context) {
         mAppContext = context.getApplicationContext();
         linkDefaultBridge();
-    }
-
-//    public View compatFresco(String name, Context context, AttributeSet attrs) {
-//        if (mImageBridge instanceof IFrescoBridge) {
-//            return ((IFrescoBridge) mImageBridge).transformFrescoView(name, context, attrs);
-//        }
-//        return null;
-//    }
-
-    public void compatFresco(Activity activity) {
-        if (mImageBridge instanceof IFrescoBridge) {
-            ((IFrescoBridge) mImageBridge).transformFrescoView(activity);
-        }
-    }
-
-    public ImageBridge getBridge() {
-        return mImageBridge;
-    }
-
-    /**
-     *
-     */
-    public static int MAX_RADIUS = 25;
-
-    public static class Size {
-
-        public int width;
-        public int height;
-
-        public Size() {
-        }
-
-        public Size(int width, int height) {
-            this.width = width;
-            this.height = height;
-        }
-
-    }
-
-    public static class Options {
-
-        /**
-         *
-         */
-        public boolean isCircle;
-
-        /**
-         *
-         */
-        public int roundCorner;
-
-        /**
-         *
-         */
-        public int blurRadius;
-
-        /**
-         *
-         */
-        public int[] size;
-
-    }
-
-    /**
-     *
-     */
-    public static class Builder {
-
-        Options mOptions;
-
-        public Builder() {
-            reset();
-        }
-
-        public Builder setShowAsCircle(boolean isCircle) {
-            if (mOptions != null) {
-                mOptions.isCircle = isCircle;
-            }
-            return this;
-        }
-
-        public Builder setRoundCorner(int corner) {
-            if (mOptions != null) {
-                mOptions.roundCorner = corner;
-            }
-            return this;
-        }
-
-        public Builder setBlurRadius(int radius) {
-            if (mOptions != null) {
-                mOptions.blurRadius = radius;
-            }
-            return this;
-        }
-
-        public Builder setSize(int[] size) {
-            if (mOptions != null) {
-                mOptions.size = new int[size.length];
-                System.arraycopy(size, 0, mOptions.size, 0, size.length);
-            }
-            return this;
-        }
-
-        public Builder reset() {
-            mOptions = new Options();
-            mOptions.isCircle = false;
-            mOptions.roundCorner = -1;
-            mOptions.blurRadius = -1;
-            mOptions.size = new int[] {};
-            return this;
-        }
-
-        public XImageBridge build() {
-            XImageBridge xImageBridge = new XImageBridge();
-            xImageBridge.mOptions = mOptions;
-            return xImageBridge;
-        }
-
     }
 
     /**
@@ -208,6 +95,132 @@ public class XImageBridge {
         if (mImageBridge == null) {
             Timber.e("cannot find Object implements ImageBridge interface");
         }
+    }
+
+    public static class FrescoCompat {
+
+        public static void replaceToDraweeView(Activity activity, boolean defaultReplace) {
+            IFrescoBridge frescoBridge = getFrescoBridge();
+            if (frescoBridge != null) {
+                frescoBridge.replaceToDraweeView(activity, defaultReplace);
+            }
+        }
+
+        public static void setDefaultSupportWrapContent(boolean support) {
+            IFrescoBridge frescoBridge = getFrescoBridge();
+            if (frescoBridge != null) {
+                frescoBridge.setDefaultSupportWrapContent(support);
+            }
+        }
+
+        private static IFrescoBridge getFrescoBridge() {
+            ImageBridge imageBridge = XImageBridge.obtain().getImageBridge();
+            if (imageBridge instanceof IFrescoBridge) {
+                return (IFrescoBridge) imageBridge;
+            }
+            return null;
+        }
+
+    }
+
+    public static class Size {
+
+        public int width;
+        public int height;
+
+        public Size(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        public boolean isValid() {
+            return width > 0 && height > 0;
+        }
+
+    }
+
+    public static class Options {
+
+        /**
+         *
+         */
+        public boolean isCircle;
+
+        /**
+         *
+         */
+        public int roundCorner;
+
+        /**
+         *
+         */
+        public int blurRadius;
+
+        /**
+         *
+         */
+        public Size size;
+
+    }
+
+    /**
+     *
+     */
+    public static class Builder {
+
+        Options mOptions;
+
+        public Builder() {
+            reset();
+        }
+
+        public Builder setShowAsCircle(boolean isCircle) {
+            if (mOptions != null) {
+                mOptions.isCircle = isCircle;
+            }
+            return this;
+        }
+
+        public Builder setRoundCorner(int corner) {
+            if (mOptions != null) {
+                mOptions.roundCorner = corner;
+            }
+            return this;
+        }
+
+        public Builder setBlurRadius(int radius) {
+            if (mOptions != null) {
+                mOptions.blurRadius = radius;
+            }
+            return this;
+        }
+
+        public Builder setSize(Size size) {
+            if (mOptions != null) {
+                mOptions.size = size;
+            }
+            return this;
+        }
+
+        public Builder reset() {
+            mOptions = new Options();
+            mOptions.isCircle = false;
+            mOptions.roundCorner = -1;
+            mOptions.blurRadius = -1;
+            mOptions.size = new Size(0, 0);
+            return this;
+        }
+
+        public XImageBridge build() {
+            XImageBridge xImageBridge = new XImageBridge();
+            xImageBridge.mOptions = mOptions;
+            return xImageBridge;
+        }
+
+    }
+
+    public ImageBridge getImageBridge() {
+        return mImageBridge;
     }
 
     public Context getContext() {

@@ -45,7 +45,7 @@ public class XImageBridge {
 
     public void initialize(Context context) {
         mAppContext = context.getApplicationContext();
-        setDefaultBridge();
+        linkDefaultBridge();
     }
 
 //    public View compatFresco(String name, Context context, AttributeSet attrs) {
@@ -69,6 +69,21 @@ public class XImageBridge {
      *
      */
     public static int MAX_RADIUS = 25;
+
+    public static class Size {
+
+        public int width;
+        public int height;
+
+        public Size() {
+        }
+
+        public Size(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+
+    }
 
     public static class Options {
 
@@ -154,7 +169,7 @@ public class XImageBridge {
     /**
      *
      */
-    public void setDefaultBridge() {
+    public void linkDefaultBridge() {
         Class<?> bridgeClass = null;
         try {
             bridgeClass = Class.forName("pl.atlantischi.ximagebridge.picasso.PicassoBridge");
@@ -168,14 +183,14 @@ public class XImageBridge {
                 //e.printStackTrace();
             }
         }
-        setBridge(bridgeClass);
+        linkBridge(bridgeClass);
     }
 
     /**
      *
      * @param bridgeClass
      */
-    public void setBridge(Class bridgeClass) {
+    public void linkBridge(Class bridgeClass) {
         if (bridgeClass != null && ImageBridge.class.isAssignableFrom(bridgeClass)) {
             try {
                 Constructor<?> constructor = bridgeClass.getConstructor();

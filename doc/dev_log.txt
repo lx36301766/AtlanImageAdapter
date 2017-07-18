@@ -1,8 +1,19 @@
 
+thanks:
+
+https://github.com/wasabeef/fresco-processors
+https://github.com/wasabeef/picasso-transformations
+https://github.com/wasabeef/glide-transformations
+
+https://github.com/hpdx/fresco-helper
+
+
+
 
 
 fresco尽量不要使用getBitmap方法，因为fresco采用Ashmem匿名共享内存机制
     http://www.mamicode.com/info-detail-1448579.html
+    https://www.fresco-cn.org/docs/datasources-datasubscribers.html
 
 
 fresco SimpleDraweeView 不支持wrap_content

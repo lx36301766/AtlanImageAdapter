@@ -10,7 +10,7 @@ get Bitmap
 #Progress monitoring
 #gif
 #MemoryCache/DiskCache
-
+#preload
 
 #WebP
 #cache hit/miss

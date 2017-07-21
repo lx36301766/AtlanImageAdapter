@@ -3,7 +3,6 @@ display image with url
 image corner
 Blur effect
 image size process
-#scale type
 get Bitmap
 
 

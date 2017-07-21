@@ -10,13 +10,13 @@ import timber.log.Timber;
  * @author lx
  */
 
-public class SimpleApplication extends Application {
+public class SimpleApp extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        XImageBridge.obtain().initialize(this);
+        XImageBridge.initialize(this);
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());

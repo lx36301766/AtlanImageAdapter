@@ -1,5 +1,6 @@
-package pl.atlantischi.ximagebridge;
+package pl.atlantischi.ximagebridge.wrapper;
 
+import android.content.Context;
 import android.net.Uri;
 import android.widget.ImageView;
 import pl.atlantischi.ximagebridge.interfaces.ImageBridge;
@@ -19,6 +20,13 @@ public class ImageBridgeWrapper implements ImageBridge {
         this.mBridge = imageBridge;
     }
 
+    @Override
+    public void initialize(Context context) {
+        if (mBridge != null) {
+            mBridge.initialize(context);
+        }
+    }
+
     public void display(Uri uri, ImageView imageView, BridgeOptions bridgeOptions) {
         if (mBridge != null) {
             mBridge.display(uri, imageView, bridgeOptions);
@@ -31,8 +39,16 @@ public class ImageBridgeWrapper implements ImageBridge {
         }
     }
 
-    public ImageBridge getImageBridge() {
+    public ImageBridge getBaseBridge() {
         return mBridge;
+    }
+
+    @Override
+    public String toString() {
+        if (mBridge != null) {
+            return mBridge.toString();
+        }
+        return "ImageBridgeWrapper--->mBridge is null";
     }
 
 }

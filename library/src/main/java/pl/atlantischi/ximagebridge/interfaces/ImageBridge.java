@@ -1,5 +1,6 @@
 package pl.atlantischi.ximagebridge.interfaces;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.widget.ImageView;
@@ -11,6 +12,8 @@ import pl.atlantischi.ximagebridge.options.BridgeOptions;
  */
 
 public interface ImageBridge {
+
+    void initialize(Context context);
 
     void display(Uri uri, ImageView imageView, BridgeOptions bridgeOptions);
 

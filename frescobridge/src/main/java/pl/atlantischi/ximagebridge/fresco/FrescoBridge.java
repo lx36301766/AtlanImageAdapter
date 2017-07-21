@@ -1,6 +1,5 @@
 package pl.atlantischi.ximagebridge.fresco;
 
-import com.facebook.common.internal.Preconditions;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -30,12 +29,12 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import pl.atlantischi.ximagebridge.XImageBridge;
 import pl.atlantischi.ximagebridge.fresco.listeners.WrapContentSupportControllerListener;
 import pl.atlantischi.ximagebridge.fresco.processors.BlurPostprocessor;
 import pl.atlantischi.ximagebridge.interfaces.IFrescoBridge;
 import pl.atlantischi.ximagebridge.options.BridgeOptions;
-import timber.log.Timber;
+
+import static com.facebook.common.internal.Preconditions.*;
 
 /**
  * Created by admin on 2017/7/7.
@@ -47,23 +46,16 @@ public class FrescoBridge implements IFrescoBridge {
 
     private boolean mSupportWrapContent;
 
-    public FrescoBridge() {
-        mContext = XImageBridge.obtain().getContext();
-        Preconditions.checkNotNull(mContext);
-        Fresco.initialize(mContext, buildImagePipelineConfig());
+    @Override
+    public void initialize(Context context) {
+        checkNotNull(context);
+        Fresco.initialize(context, buildImagePipelineConfig());
+        mContext = context;
     }
-
-//    @Override
-//    public View transformFrescoView(String name, Context context, AttributeSet attrs) {
-//        if ("ImageView".equals(name)) {
-//            return new SimpleDraweeView(context, attrs);
-//        }
-//        return null;
-//    }
 
     @Override
     public void replaceToDraweeView(final Activity activity, final boolean defaultReplace) {
-        Preconditions.checkNotNull(activity);
+        checkNotNull(activity);
         LayoutInflaterCompat.setFactory(LayoutInflater.from(activity), new LayoutInflaterFactory() {
             @Override
             public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
@@ -96,8 +88,8 @@ public class FrescoBridge implements IFrescoBridge {
 
     @Override
     public void display(Uri uri, final ImageView imageView, BridgeOptions bridgeOptions) {
-        Preconditions.checkNotNull(imageView);
-        Preconditions.checkNotNull(uri);
+        checkNotNull(imageView);
+        checkNotNull(uri);
         if (imageView instanceof SimpleDraweeView) {
             SimpleDraweeView draweeView = (SimpleDraweeView) imageView;
             draweeView.setHierarchy(buildGenericDraweeHierarchy(bridgeOptions));
@@ -151,8 +143,8 @@ public class FrescoBridge implements IFrescoBridge {
 
     @Override
     public void getBitmapFromUri(Uri uri, final BitmapLoader bitmapLoader) {
-        Preconditions.checkNotNull(uri);
-        Preconditions.checkNotNull(bitmapLoader);
+        checkNotNull(uri);
+        checkNotNull(bitmapLoader);
 
         ImagePipeline imagePipeline = Fresco.getImagePipeline();
         ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(uri).build();
@@ -160,11 +152,20 @@ public class FrescoBridge implements IFrescoBridge {
         dataSource.subscribe(new BaseBitmapDataSubscriber() {
             @Override
             protected void onNewResultImpl(Bitmap bitmap) {
-                // You can not assign the bitmap to any variable not in the scope of the onNewResultImpl method.
-                // The reason is, as already explained in the above examples that, after the subscriber has finished
-                // executing, the image pipeline will recycle the bitmap and free its memory. If you try to draw the
-                // bitmap after that, your app will crash with an IllegalStateException.
-                bitmapLoader.onBitmapLoaded(bitmap);
+
+                Bitmap destBmp;
+                if (bitmapLoader instanceof FrescoBitmapLoader) {
+                    destBmp = bitmap;
+                } else {
+                    // You can not assign the bitmap to any variable not in the scope of the onNewResultImpl method.
+                    // The reason is, as already explained in the above examples that, after the subscriber has finished
+                    // executing, the image pipeline will recycle the bitmap and free its memory. If you try to draw the
+                    // bitmap after that, your app will crash with an IllegalStateException.
+
+                    // https://github.com/facebook/fresco/issues/648
+                    destBmp = bitmap.copy(bitmap.getConfig(), false);
+                }
+                bitmapLoader.onBitmapLoaded(destBmp);
             }
 
             @Override

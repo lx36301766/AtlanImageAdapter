@@ -1,4 +1,4 @@
-package pl.atlantischi.ximagebridge.fresco;
+package pl.atlantischi.ximagebridge.compat;
 
 import android.app.Activity;
 import pl.atlantischi.ximagebridge.XImageBridge;
@@ -28,7 +28,7 @@ public class FrescoCompat {
     }
 
     private static IFrescoBridge getFrescoBridge() {
-        ImageBridge imageBridge = XImageBridge.obtain().getImageBridge();
+        ImageBridge imageBridge = XImageBridge.getBaseBridge();
         if (imageBridge instanceof IFrescoBridge) {
             return (IFrescoBridge) imageBridge;
         }

@@ -18,9 +18,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-    compile "${SUPPORT_DEPS.appcompatV7}"
-    compile "${SUPPORT_DEPS.annotations}"
+    compile "${DEPS.constraint_layout}"
 
-    compile "${LOG.timber}"
+    compile project(':library')
 
+    compile "${GLIDE.glide}"
+    annotationProcessor "${GLIDE.compiler}"
 }

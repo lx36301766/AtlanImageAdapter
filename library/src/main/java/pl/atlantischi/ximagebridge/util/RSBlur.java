@@ -1,4 +1,4 @@
-package pl.atlantischi.ximagebridge.blurutil;
+package pl.atlantischi.ximagebridge.util;
 
 import android.annotation.TargetApi;
 import android.content.Context;

@@ -1,6 +1,7 @@
 package pl.atlantischi.ximagebridge.interfaces;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 /**
@@ -20,5 +21,9 @@ public interface IFrescoBridge extends ImageBridge {
      * @param support
      */
     void setDefaultSupportWrapContent(boolean support);
+
+    interface FrescoBitmapLoader extends BitmapLoader {
+
+    }
 
 }

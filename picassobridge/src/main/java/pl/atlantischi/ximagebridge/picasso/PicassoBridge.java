@@ -13,12 +13,13 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
-import pl.atlantischi.ximagebridge.XImageBridge;
 import pl.atlantischi.ximagebridge.interfaces.IPicassoBridge;
 import pl.atlantischi.ximagebridge.options.BridgeOptions;
 import pl.atlantischi.ximagebridge.picasso.transformation.BlurTransformation;
 import pl.atlantischi.ximagebridge.picasso.transformation.CircleTransform;
 import pl.atlantischi.ximagebridge.picasso.transformation.RoundedCornersTransformation;
+
+import static pl.atlantischi.ximagebridge.util.Preconditions.*;
 
 /**
  * Created by admin on 2017/7/7.
@@ -28,25 +29,30 @@ public class PicassoBridge implements IPicassoBridge {
 
     private Context mContext;
 
-    public PicassoBridge() {
-        mContext = XImageBridge.obtain().getContext();
+    @Override
+    public void initialize(Context context) {
+        mContext = context;
     }
 
     @Override
     public void display(Uri uri, ImageView imageView, BridgeOptions bridgeOptions) {
-        RequestCreator requestCreator = Picasso.with(mContext).load(uri);
+        if (imageView == null) {
+            return;
+        }
+        Context context = imageView.getContext();
+        RequestCreator requestCreator = Picasso.with(context).load(uri);
         if (bridgeOptions != null) {
             if (bridgeOptions.size != null && bridgeOptions.size.isValid()) {
                 int imageWidth = bridgeOptions.size.width;
                 int imageHeight = bridgeOptions.size.height;
                 requestCreator.resize(imageWidth, imageHeight);
             }
-            requestCreator.transform(buildTransformations(bridgeOptions));
+            requestCreator.transform(buildTransformations(context, bridgeOptions));
         }
         requestCreator.into(imageView);
     }
 
-    private List<Transformation> buildTransformations(BridgeOptions bridgeOptions) {
+    private List<Transformation> buildTransformations(Context context, BridgeOptions bridgeOptions) {
         List<Transformation> transformationList = new ArrayList<>();
         if (bridgeOptions.isCircle) {
             transformationList.add(new CircleTransform());
@@ -54,7 +60,7 @@ public class PicassoBridge implements IPicassoBridge {
             transformationList.add(new RoundedCornersTransformation(bridgeOptions.roundCorner, 0));
         }
         if (bridgeOptions.blurRadius > 0) {
-            transformationList.add(new BlurTransformation(mContext, bridgeOptions.blurRadius));
+            transformationList.add(new BlurTransformation(context, bridgeOptions.blurRadius));
         }
         return transformationList;
     }
@@ -64,6 +70,7 @@ public class PicassoBridge implements IPicassoBridge {
 
     @Override
     public void getBitmapFromUri(Uri uri, final BitmapLoader bitmapLoader) {
+        checkNotNull(mContext, "mContext is null, please call initialize(context) before");
         mTarget = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -80,7 +87,7 @@ public class PicassoBridge implements IPicassoBridge {
 
             }
         };
-        Picasso.with(mContext).load(uri.toString()).into(mTarget);
+        Picasso.with(mContext).load(uri).into(mTarget);
     }
 
 }

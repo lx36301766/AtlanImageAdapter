@@ -1,11 +1,14 @@
 package pl.atlantischi.ximagebridge.simple;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import pl.atlantischi.ximagebridge.XImageBridge;
-import pl.atlantischi.ximagebridge.fresco.FrescoCompat;
+import pl.atlantischi.ximagebridge.compat.FrescoCompat;
+import pl.atlantischi.ximagebridge.interfaces.IFrescoBridge;
+import pl.atlantischi.ximagebridge.interfaces.ImageBridge;
 import pl.atlantischi.ximagebridge.options.BridgeOptions;
 import pl.atlantischi.ximagebridge.options.Size;
 
@@ -29,6 +32,14 @@ public class SimpleMainActivity extends AppCompatActivity {
 //        return super.onCreateView(name, context, attrs);
 //    }
 
+    //    @Override
+    //    public View transformFrescoView(String name, Context context, AttributeSet attrs) {
+    //        if ("ImageView".equals(name)) {
+    //            return new SimpleDraweeView(context, attrs);
+    //        }
+    //        return null;
+    //    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -36,7 +47,7 @@ public class SimpleMainActivity extends AppCompatActivity {
         FrescoCompat.setDefaultSupportWrapContent(true);
 
         super.onCreate(savedInstanceState);
-        setTitle(XImageBridge.obtain().getImageBridge().getClass().getSimpleName());
+        setTitle(XImageBridge.obtain().toString());
         setContentView(R.layout.activity_ximage_compat);
 
         final ImageView iv = (ImageView) findViewById(R.id.imageView);
@@ -47,12 +58,21 @@ public class SimpleMainActivity extends AppCompatActivity {
         options.size = new Size(800, 700);
         XImageBridge.obtain().display(Uri.parse(png), iv, options);
 
-//        mXImageBridge.getBitmapFromUri(Uri.parse(url), new ImageBridge.BitmapLoader() {
-//            @Override
-//            public void onBitmapLoaded(Bitmap bitmap) {
-//                iv.setImageBitmap(bitmap);
-//            }
-//        });
+        XImageBridge.obtain().getBitmapFromUri(Uri.parse(jpg), new ImageBridge.BitmapLoader() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap) {
+                iv.setImageBitmap(bitmap);
+            }
+        });
+
+        XImageBridge.obtain().getBitmapFromUri(Uri.parse(jpg), new IFrescoBridge.FrescoBitmapLoader() {
+
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap) {
+                iv.setImageBitmap(bitmap);
+            }
+
+        });
 
     }
 }

@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import pl.atlantischi.ximagebridge.XImageBridge;
+import pl.atlantischi.ximagebridge.fresco.FrescoCompat;
+import pl.atlantischi.ximagebridge.options.BridgeOptions;
+import pl.atlantischi.ximagebridge.options.Size;
 
 public class SimpleMainActivity extends AppCompatActivity {
 
@@ -29,19 +32,19 @@ public class SimpleMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        XImageBridge.FrescoCompat.replaceToDraweeView(this, false);
-        XImageBridge.FrescoCompat.setDefaultSupportWrapContent(true);
+        FrescoCompat.replaceToDraweeView(this, false);
+        FrescoCompat.setDefaultSupportWrapContent(true);
 
         super.onCreate(savedInstanceState);
         setTitle(XImageBridge.obtain().getImageBridge().getClass().getSimpleName());
         setContentView(R.layout.activity_ximage_compat);
 
         final ImageView iv = (ImageView) findViewById(R.id.imageView);
-        XImageBridge.Options options = new XImageBridge.Options();
+        BridgeOptions options = new BridgeOptions();
 //        options.isCircle = true;
 //        options.roundCorner = 50;
 //        options.blurRadius = 10;
-        options.size = new XImageBridge.Size(800, 700);
+        options.size = new Size(800, 700);
         XImageBridge.obtain().display(Uri.parse(png), iv, options);
 
 //        mXImageBridge.getBitmapFromUri(Uri.parse(url), new ImageBridge.BitmapLoader() {

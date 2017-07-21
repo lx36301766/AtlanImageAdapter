@@ -34,6 +34,7 @@ import pl.atlantischi.ximagebridge.XImageBridge;
 import pl.atlantischi.ximagebridge.fresco.listeners.WrapContentSupportControllerListener;
 import pl.atlantischi.ximagebridge.fresco.processors.BlurPostprocessor;
 import pl.atlantischi.ximagebridge.interfaces.IFrescoBridge;
+import pl.atlantischi.ximagebridge.options.BridgeOptions;
 import timber.log.Timber;
 
 /**
@@ -94,34 +95,34 @@ public class FrescoBridge implements IFrescoBridge {
     }
 
     @Override
-    public void display(Uri uri, final ImageView imageView, XImageBridge.Options options) {
+    public void display(Uri uri, final ImageView imageView, BridgeOptions bridgeOptions) {
         Preconditions.checkNotNull(imageView);
         Preconditions.checkNotNull(uri);
         if (imageView instanceof SimpleDraweeView) {
             SimpleDraweeView draweeView = (SimpleDraweeView) imageView;
-            draweeView.setHierarchy(buildGenericDraweeHierarchy(options));
-            draweeView.setController(buildDraweeController(uri, draweeView, options));
+            draweeView.setHierarchy(buildGenericDraweeHierarchy(bridgeOptions));
+            draweeView.setController(buildDraweeController(uri, draweeView, bridgeOptions));
         }
     }
 
-    private GenericDraweeHierarchy buildGenericDraweeHierarchy(XImageBridge.Options options) {
+    private GenericDraweeHierarchy buildGenericDraweeHierarchy(BridgeOptions bridgeOptions) {
         GenericDraweeHierarchy draweeHierarchy = new GenericDraweeHierarchyBuilder(mContext.getResources()).build();
-        if (options != null) {
+        if (bridgeOptions != null) {
             RoundingParams roundingParams = new RoundingParams();
-            if (options.isCircle) {
+            if (bridgeOptions.isCircle) {
                 roundingParams.setRoundAsCircle(true);
             }
-            if (options.roundCorner > 0) {
-                roundingParams.setCornersRadius(options.roundCorner);
+            if (bridgeOptions.roundCorner > 0) {
+                roundingParams.setCornersRadius(bridgeOptions.roundCorner);
             }
             draweeHierarchy.setRoundingParams(roundingParams);
         }
         return draweeHierarchy;
     }
 
-    private DraweeController buildDraweeController(Uri uri, SimpleDraweeView draweeView, XImageBridge.Options options) {
+    private DraweeController buildDraweeController(Uri uri, SimpleDraweeView draweeView, BridgeOptions bridgeOptions) {
         PipelineDraweeControllerBuilder controllerBuilder = Fresco.newDraweeControllerBuilder()
-                .setImageRequest(buildImageRequest(uri, options))
+                .setImageRequest(buildImageRequest(uri, bridgeOptions))
                 .setOldController(draweeView.getController());
         if (mSupportWrapContent) {
             controllerBuilder.setControllerListener(new WrapContentSupportControllerListener(draweeView));
@@ -129,15 +130,15 @@ public class FrescoBridge implements IFrescoBridge {
         return controllerBuilder.build();
     }
 
-    private ImageRequest buildImageRequest(Uri uri, XImageBridge.Options options) {
+    private ImageRequest buildImageRequest(Uri uri, BridgeOptions bridgeOptions) {
         ImageRequestBuilder imageRequestBuilder = ImageRequestBuilder.newBuilderWithSource(uri);
-        if (options != null) {
-            if (options.blurRadius > 0) {
-                imageRequestBuilder.setPostprocessor(new BlurPostprocessor(mContext, options.blurRadius));
+        if (bridgeOptions != null) {
+            if (bridgeOptions.blurRadius > 0) {
+                imageRequestBuilder.setPostprocessor(new BlurPostprocessor(mContext, bridgeOptions.blurRadius));
             }
-            if (options.size != null && options.size.isValid()) {
-                int imageWidth = options.size.width;
-                int imageHeight = options.size.height;
+            if (bridgeOptions.size != null && bridgeOptions.size.isValid()) {
+                int imageWidth = bridgeOptions.size.width;
+                int imageHeight = bridgeOptions.size.height;
                 //Resizing has some limitations:
                 //  it only supports JPEG files
                 //  the actual resize is carried out to the nearest 1/8 of the original size

@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.widget.ImageView;
 import pl.atlantischi.ximagebridge.XImageBridge;
 import pl.atlantischi.ximagebridge.interfaces.IPicassoBridge;
+import pl.atlantischi.ximagebridge.options.BridgeOptions;
 import pl.atlantischi.ximagebridge.picasso.transformation.BlurTransformation;
 import pl.atlantischi.ximagebridge.picasso.transformation.CircleTransform;
 import pl.atlantischi.ximagebridge.picasso.transformation.RoundedCornersTransformation;
@@ -32,28 +33,28 @@ public class PicassoBridge implements IPicassoBridge {
     }
 
     @Override
-    public void display(Uri uri, ImageView imageView, XImageBridge.Options options) {
+    public void display(Uri uri, ImageView imageView, BridgeOptions bridgeOptions) {
         RequestCreator requestCreator = Picasso.with(mContext).load(uri);
-        if (options != null) {
-            if (options.size != null && options.size.isValid()) {
-                int imageWidth = options.size.width;
-                int imageHeight = options.size.height;
+        if (bridgeOptions != null) {
+            if (bridgeOptions.size != null && bridgeOptions.size.isValid()) {
+                int imageWidth = bridgeOptions.size.width;
+                int imageHeight = bridgeOptions.size.height;
                 requestCreator.resize(imageWidth, imageHeight);
             }
-            requestCreator.transform(buildTransformations(options));
+            requestCreator.transform(buildTransformations(bridgeOptions));
         }
         requestCreator.into(imageView);
     }
 
-    private List<Transformation> buildTransformations(XImageBridge.Options options) {
+    private List<Transformation> buildTransformations(BridgeOptions bridgeOptions) {
         List<Transformation> transformationList = new ArrayList<>();
-        if (options.isCircle) {
+        if (bridgeOptions.isCircle) {
             transformationList.add(new CircleTransform());
-        } else if (options.roundCorner > 0) {
-            transformationList.add(new RoundedCornersTransformation(options.roundCorner, 0));
+        } else if (bridgeOptions.roundCorner > 0) {
+            transformationList.add(new RoundedCornersTransformation(bridgeOptions.roundCorner, 0));
         }
-        if (options.blurRadius > 0) {
-            transformationList.add(new BlurTransformation(mContext, options.blurRadius));
+        if (bridgeOptions.blurRadius > 0) {
+            transformationList.add(new BlurTransformation(mContext, bridgeOptions.blurRadius));
         }
         return transformationList;
     }

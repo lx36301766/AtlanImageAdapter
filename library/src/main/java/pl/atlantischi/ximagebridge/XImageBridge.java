@@ -4,12 +4,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
-import android.widget.ImageView;
 import pl.atlantischi.ximagebridge.interfaces.ImageBridge;
-import pl.atlantischi.ximagebridge.interfaces.IFrescoBridge;
+import pl.atlantischi.ximagebridge.options.BridgeOptions;
+import pl.atlantischi.ximagebridge.options.Size;
 import timber.log.Timber;
 
 /**
@@ -23,16 +21,43 @@ public class XImageBridge {
     @SuppressLint("StaticFieldLeak")
     private static XImageBridge singleton;
 
-    private Context mAppContext;
-
-    private ImageBridge mImageBridge;
-
-    private Options mOptions;
+    private static Context mAppContext;
+    private static ImageBridgeWrapper mImageBridgeWrapper;
+    private BridgeOptions mBridgeOptions;
 
     /**
      *
      */
     public static int MAX_RADIUS = 25;
+
+    private static String[] mDefaultBridges = new String[] {
+            "pl.atlantischi.ximagebridge.picasso.PicassoBridge",
+            "pl.atlantischi.ximagebridge.fresco.FrescoBridge",
+    };
+
+    public static ImageBridge get() {
+        if (mImageBridgeWrapper == null) {
+            synchronized(XImageBridge.class) {
+                if (mImageBridgeWrapper == null) {
+                    ImageBridge imageBridge = null;
+                    for (String bridge : mDefaultBridges) {
+                        try {
+                            Class<?>  bridgeClass = Class.forName(bridge);
+                            if (ImageBridge.class.isAssignableFrom(bridgeClass)) {
+                                Constructor<?> constructor = bridgeClass.getConstructor();
+                                imageBridge = (ImageBridge) constructor.newInstance();
+                                break;
+                            }
+                        } catch (Exception e) {
+                            //e.printStackTrace();
+                        }
+                    }
+                    mImageBridgeWrapper = new ImageBridgeWrapper(imageBridge);
+                }
+            }
+        }
+        return mImageBridgeWrapper;
+    }
 
     public static XImageBridge obtain() {
         if (singleton == null) {
@@ -58,14 +83,11 @@ public class XImageBridge {
      */
     public void linkDefaultBridge() {
         Class<?> bridgeClass = null;
-        try {
-            bridgeClass = Class.forName("pl.atlantischi.ximagebridge.picasso.PicassoBridge");
-        } catch (ClassNotFoundException e) {
-            //e.printStackTrace();
-        }
-        if (bridgeClass == null) {
+        for (String bridge : mDefaultBridges) {
             try {
-                bridgeClass = Class.forName("pl.atlantischi.ximagebridge.fresco.FrescoBridge");
+                if (bridgeClass == null) {
+                    bridgeClass = Class.forName(bridge);
+                }
             } catch (ClassNotFoundException e) {
                 //e.printStackTrace();
             }
@@ -81,7 +103,8 @@ public class XImageBridge {
         if (bridgeClass != null && ImageBridge.class.isAssignableFrom(bridgeClass)) {
             try {
                 Constructor<?> constructor = bridgeClass.getConstructor();
-                mImageBridge = (ImageBridge) constructor.newInstance();
+                ImageBridge imageBridge = (ImageBridge) constructor.newInstance();
+                mImageBridgeWrapper = new ImageBridgeWrapper(imageBridge);
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -92,75 +115,9 @@ public class XImageBridge {
                 e.printStackTrace();
             }
         }
-        if (mImageBridge == null) {
+        if (mImageBridgeWrapper == null) {
             Timber.e("cannot find Object implements ImageBridge interface");
         }
-    }
-
-    public static class FrescoCompat {
-
-        public static void replaceToDraweeView(Activity activity, boolean defaultReplace) {
-            IFrescoBridge frescoBridge = getFrescoBridge();
-            if (frescoBridge != null) {
-                frescoBridge.replaceToDraweeView(activity, defaultReplace);
-            }
-        }
-
-        public static void setDefaultSupportWrapContent(boolean support) {
-            IFrescoBridge frescoBridge = getFrescoBridge();
-            if (frescoBridge != null) {
-                frescoBridge.setDefaultSupportWrapContent(support);
-            }
-        }
-
-        private static IFrescoBridge getFrescoBridge() {
-            ImageBridge imageBridge = XImageBridge.obtain().getImageBridge();
-            if (imageBridge instanceof IFrescoBridge) {
-                return (IFrescoBridge) imageBridge;
-            }
-            return null;
-        }
-
-    }
-
-    public static class Size {
-
-        public int width;
-        public int height;
-
-        public Size(int width, int height) {
-            this.width = width;
-            this.height = height;
-        }
-
-        public boolean isValid() {
-            return width > 0 && height > 0;
-        }
-
-    }
-
-    public static class Options {
-
-        /**
-         *
-         */
-        public boolean isCircle;
-
-        /**
-         *
-         */
-        public int roundCorner;
-
-        /**
-         *
-         */
-        public int blurRadius;
-
-        /**
-         *
-         */
-        public Size size;
-
     }
 
     /**
@@ -168,79 +125,66 @@ public class XImageBridge {
      */
     public static class Builder {
 
-        Options mOptions;
+        BridgeOptions mBridgeOptions;
 
         public Builder() {
             reset();
         }
 
         public Builder setShowAsCircle(boolean isCircle) {
-            if (mOptions != null) {
-                mOptions.isCircle = isCircle;
+            if (mBridgeOptions != null) {
+                mBridgeOptions.isCircle = isCircle;
             }
             return this;
         }
 
         public Builder setRoundCorner(int corner) {
-            if (mOptions != null) {
-                mOptions.roundCorner = corner;
+            if (mBridgeOptions != null) {
+                mBridgeOptions.roundCorner = corner;
             }
             return this;
         }
 
         public Builder setBlurRadius(int radius) {
-            if (mOptions != null) {
-                mOptions.blurRadius = radius;
+            if (mBridgeOptions != null) {
+                mBridgeOptions.blurRadius = radius;
             }
             return this;
         }
 
         public Builder setSize(Size size) {
-            if (mOptions != null) {
-                mOptions.size = size;
+            if (mBridgeOptions != null) {
+                mBridgeOptions.size = size;
             }
             return this;
         }
 
         public Builder reset() {
-            mOptions = new Options();
-            mOptions.isCircle = false;
-            mOptions.roundCorner = -1;
-            mOptions.blurRadius = -1;
-            mOptions.size = new Size(0, 0);
+            mBridgeOptions = new BridgeOptions();
+            mBridgeOptions.isCircle = false;
+            mBridgeOptions.roundCorner = -1;
+            mBridgeOptions.blurRadius = -1;
+            mBridgeOptions.size = new Size(0, 0);
             return this;
         }
 
         public XImageBridge build() {
             XImageBridge xImageBridge = new XImageBridge();
-            xImageBridge.mOptions = mOptions;
+            xImageBridge.mBridgeOptions = mBridgeOptions;
             return xImageBridge;
         }
 
-    }
-
-    public ImageBridge getImageBridge() {
-        return mImageBridge;
     }
 
     public Context getContext() {
         return mAppContext;
     }
 
-    public void display(Uri uri, ImageView imageView) {
-        display(uri, imageView, null);
-    }
-
-    public void display(Uri uri, ImageView imageView, Options options) {
-        if (mImageBridge != null) {
-            mImageBridge.display(uri, imageView, options);
+    public ImageBridge getImageBridge() {
+        if (mImageBridgeWrapper != null) {
+            return mImageBridgeWrapper.getImageBridge();
         }
-    }
-
-    public void getBitmapFromUri(Uri uri, ImageBridge.BitmapLoader bitmapLoader) {
-        if (mImageBridge != null) {
-            mImageBridge.getBitmapFromUri(uri, bitmapLoader);
-        }
+        return null;
     }
 
 }

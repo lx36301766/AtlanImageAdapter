@@ -87,6 +87,11 @@ public class FrescoBridge implements IFrescoBridge {
     }
 
     @Override
+    public void display(Uri uri, ImageView imageView) {
+        display(uri, imageView, null);
+    }
+
+    @Override
     public void display(Uri uri, final ImageView imageView, BridgeOptions bridgeOptions) {
         checkNotNull(imageView);
         checkNotNull(uri);

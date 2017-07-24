@@ -27,6 +27,13 @@ public class ImageBridgeWrapper implements ImageBridge {
         }
     }
 
+    @Override
+    public void display(Uri uri, ImageView imageView) {
+        if (mBase != null) {
+            mBase.display(uri, imageView);
+        }
+    }
+
     public void display(Uri uri, ImageView imageView, BridgeOptions bridgeOptions) {
         if (mBase != null) {
             mBase.display(uri, imageView, bridgeOptions);
@@ -46,7 +53,7 @@ public class ImageBridgeWrapper implements ImageBridge {
     @Override
     public String toString() {
         if (mBase != null) {
-            return mBase.toString();
+            return mBase.getClass().getSimpleName();
         }
         return "ImageBridgeWrapper--->mBase is null";
     }

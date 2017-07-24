@@ -35,6 +35,11 @@ public class PicassoBridge implements IPicassoBridge {
     }
 
     @Override
+    public void display(Uri uri, ImageView imageView) {
+        display(uri, imageView, null);
+    }
+
+    @Override
     public void display(Uri uri, ImageView imageView, BridgeOptions bridgeOptions) {
         if (imageView == null) {
             return;

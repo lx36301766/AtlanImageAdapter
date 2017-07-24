@@ -15,6 +15,8 @@ public interface ImageBridge {
 
     void initialize(Context context);
 
+    void display(Uri uri, ImageView imageView);
+
     void display(Uri uri, ImageView imageView, BridgeOptions bridgeOptions);
 
     void getBitmapFromUri(Uri uri, BitmapLoader bitmapLoader);

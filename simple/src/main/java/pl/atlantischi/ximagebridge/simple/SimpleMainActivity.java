@@ -50,20 +50,24 @@ public class SimpleMainActivity extends AppCompatActivity {
         setTitle(XImageBridge.obtain().toString());
         setContentView(R.layout.activity_ximage_compat);
 
-        final ImageView iv = (ImageView) findViewById(R.id.imageView);
-        BridgeOptions options = new BridgeOptions();
-//        options.isCircle = true;
-//        options.roundCorner = 50;
-//        options.blurRadius = 10;
-        options.size = new Size(800, 700);
-        XImageBridge.obtain().display(Uri.parse(png), iv, options);
+        final ImageView iv1 = (ImageView) findViewById(R.id.imageView);
+        XImageBridge.obtain().display(Uri.parse(jpg), iv1);
 
-        XImageBridge.obtain().getBitmapFromUri(Uri.parse(jpg), new ImageBridge.BitmapLoader() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap) {
-                iv.setImageBitmap(bitmap);
-            }
-        });
+        final ImageView iv2 = (ImageView) findViewById(R.id.imageView2);
+        BridgeOptions options2 = new BridgeOptions();
+//        options2.isCircle = true;
+//        options2.roundCorner = 50;
+        options2.blurRadius = 10;
+        options2.size = new Size(200, 150);
+        XImageBridge.obtain().display(Uri.parse(jpg), iv2, options2);
+
+        final ImageView iv3 = (ImageView) findViewById(R.id.imageView3);
+        BridgeOptions options3 = new BridgeOptions();
+//        options3.isCircle = true;
+        options3.roundCorner = 50;
+        options3.blurRadius = 10;
+        options3.size = new Size(500, 400);
+        XImageBridge.obtain().display(Uri.parse(jpg), iv3, options3);
 
     }
 }

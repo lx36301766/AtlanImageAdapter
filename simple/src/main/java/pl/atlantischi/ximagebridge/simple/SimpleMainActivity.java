@@ -65,14 +65,5 @@ public class SimpleMainActivity extends AppCompatActivity {
             }
         });
 
-        XImageBridge.obtain().getBitmapFromUri(Uri.parse(jpg), new IFrescoBridge.FrescoBitmapLoader() {
-
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap) {
-                iv.setImageBitmap(bitmap);
-            }
-
-        });
-
     }
 }

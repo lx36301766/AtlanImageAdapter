@@ -14,41 +14,41 @@ import pl.atlantischi.ximagebridge.options.BridgeOptions;
 
 public class ImageBridgeWrapper implements ImageBridge {
 
-    private ImageBridge mBridge;
+    private ImageBridge mBase;
 
     public ImageBridgeWrapper(ImageBridge imageBridge) {
-        this.mBridge = imageBridge;
+        this.mBase = imageBridge;
     }
 
     @Override
     public void initialize(Context context) {
-        if (mBridge != null) {
-            mBridge.initialize(context);
+        if (mBase != null) {
+            mBase.initialize(context);
         }
     }
 
     public void display(Uri uri, ImageView imageView, BridgeOptions bridgeOptions) {
-        if (mBridge != null) {
-            mBridge.display(uri, imageView, bridgeOptions);
+        if (mBase != null) {
+            mBase.display(uri, imageView, bridgeOptions);
         }
     }
 
     public void getBitmapFromUri(Uri uri, ImageBridge.BitmapLoader bitmapLoader) {
-        if (mBridge != null) {
-            mBridge.getBitmapFromUri(uri, bitmapLoader);
+        if (mBase != null) {
+            mBase.getBitmapFromUri(uri, bitmapLoader);
         }
     }
 
     public ImageBridge getBaseBridge() {
-        return mBridge;
+        return mBase;
     }
 
     @Override
     public String toString() {
-        if (mBridge != null) {
-            return mBridge.toString();
+        if (mBase != null) {
+            return mBase.toString();
         }
-        return "ImageBridgeWrapper--->mBridge is null";
+        return "ImageBridgeWrapper--->mBase is null";
     }
 
 }

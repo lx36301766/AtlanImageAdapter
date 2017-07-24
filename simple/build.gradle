@@ -21,14 +21,13 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
     compile "${DEPS.constraint_layout}"
+    compile "${SUPPORT_DEPS.supportV4}"
 
     compile project(':library')
-//    compile project(':picassobridge')
-    compile project(':frescobridge')
 
-//    compile "${FACEBOOK.fresco}"
-//    compile "${GLIDE.glide}"
-//    annotationProcessor "${GLIDE.compiler}"
-//    compile "${DEPS.universal_image_loader}"
+    //bridge
+    compile project(':glidebridge')
+//    compile project(':picassobridge')
+//    compile project(':frescobridge')
 
 }

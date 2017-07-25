@@ -76,6 +76,8 @@ public class PicassoBridge implements IPicassoBridge {
     @Override
     public void getBitmapFromUri(Uri uri, final BitmapLoader bitmapLoader) {
         checkNotNull(mContext, "mContext is null, please call initialize(context) before");
+        checkNotNull(uri);
+        checkNotNull(bitmapLoader);
         mTarget = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {

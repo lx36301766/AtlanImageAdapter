@@ -19,7 +19,7 @@ public interface ImageBridge {
 
     void display(Uri uri, ImageView imageView, BridgeOptions bridgeOptions);
 
-    void getBitmapFromUri(Uri uri, BitmapLoader bitmapLoader);
+    void getBitmapFromUri(Uri uri, final BitmapLoader bitmapLoader);
 
     interface BitmapLoader {
         void onBitmapLoaded(Bitmap bitmap);

@@ -81,4 +81,5 @@ public class CropCircleTransformation implements Transformation<Bitmap> {
     public void updateDiskCacheKey(MessageDigest messageDigest) {
         messageDigest.update(ID_BYTES);
     }
+
 }

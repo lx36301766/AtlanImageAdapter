@@ -148,16 +148,15 @@ public class FrescoBridge implements IFrescoBridge {
 
     @Override
     public void getBitmapFromUri(Uri uri, final BitmapLoader bitmapLoader) {
+        checkNotNull(mContext, "mContext is null, please call initialize(context) before");
         checkNotNull(uri);
         checkNotNull(bitmapLoader);
-
         ImagePipeline imagePipeline = Fresco.getImagePipeline();
         ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(uri).build();
         DataSource<CloseableReference<CloseableImage>> dataSource = imagePipeline.fetchDecodedImage(imageRequest, mContext);
         dataSource.subscribe(new BaseBitmapDataSubscriber() {
             @Override
             protected void onNewResultImpl(Bitmap bitmap) {
-
                 Bitmap destBmp;
                 if (bitmapLoader instanceof FrescoBitmapLoader) {
                     destBmp = bitmap;
@@ -178,7 +177,6 @@ public class FrescoBridge implements IFrescoBridge {
 
             }
         }, null);
-
     }
 
 //    public void loadOriginalImage(String url, final BitmapLoader bitmapLoader, Executor executor) {

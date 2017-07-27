@@ -4,7 +4,7 @@ image corner
 Blur effect
 image size process
 get Bitmap
-#placeholder
+placeholder
 
 #Progress monitoring
 #gif

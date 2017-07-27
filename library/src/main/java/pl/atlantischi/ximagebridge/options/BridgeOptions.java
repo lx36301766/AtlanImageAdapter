@@ -1,5 +1,7 @@
 package pl.atlantischi.ximagebridge.options;
 
+import android.graphics.drawable.Drawable;
+
 /**
  * Created on 19/07/2017.
  *
@@ -27,5 +29,15 @@ public class BridgeOptions {
      *
      */
     public Size size;
+
+    /**
+     *
+     */
+    public Drawable placeHolderDrawable;
+
+    /**
+     *
+     */
+    public int placeHolderResId;
 
 }

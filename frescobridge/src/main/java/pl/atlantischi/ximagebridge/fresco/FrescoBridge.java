@@ -113,6 +113,11 @@ public class FrescoBridge implements IFrescoBridge {
                 roundingParams.setCornersRadius(bridgeOptions.roundCorner);
             }
             draweeHierarchy.setRoundingParams(roundingParams);
+            if (bridgeOptions.placeHolderDrawable != null) {
+                draweeHierarchy.setPlaceholderImage(bridgeOptions.placeHolderDrawable);
+            } else if (bridgeOptions.placeHolderResId > 0) {
+                draweeHierarchy.setPlaceholderImage(bridgeOptions.placeHolderResId);
+            }
         }
         return draweeHierarchy;
     }

@@ -41,10 +41,14 @@ public class PicassoBridge implements IPicassoBridge {
 
     @Override
     public void display(Uri uri, ImageView imageView, BridgeOptions bridgeOptions) {
-        if (imageView == null) {
-            return;
-        }
+        checkNotNull(uri);
+        checkNotNull(imageView);
         Context context = imageView.getContext();
+        RequestCreator requestCreator = buildRequestCreator(uri, bridgeOptions, context);
+        requestCreator.into(imageView);
+    }
+
+    private RequestCreator buildRequestCreator(Uri uri, BridgeOptions bridgeOptions, Context context) {
         RequestCreator requestCreator = Picasso.with(context).load(uri);
         if (bridgeOptions != null) {
             if (bridgeOptions.size != null && bridgeOptions.size.isValid()) {
@@ -52,9 +56,14 @@ public class PicassoBridge implements IPicassoBridge {
                 int imageHeight = bridgeOptions.size.height;
                 requestCreator.resize(imageWidth, imageHeight);
             }
+            if (bridgeOptions.placeHolderDrawable != null) {
+                requestCreator.placeholder(bridgeOptions.placeHolderDrawable);
+            } else if (bridgeOptions.placeHolderResId > 0) {
+                requestCreator.placeholder(bridgeOptions.placeHolderResId);
+            }
             requestCreator.transform(buildTransformations(context, bridgeOptions));
         }
-        requestCreator.into(imageView);
+        return requestCreator;
     }
 
     private List<Transformation> buildTransformations(Context context, BridgeOptions bridgeOptions) {

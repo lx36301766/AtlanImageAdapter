@@ -66,6 +66,11 @@ public class GlideBridge implements IGlideBridge {
         if (transformation != null) {
             options.transform(transformation);
         }
+        if (bridgeOptions.placeHolderDrawable != null) {
+            options.placeholder(bridgeOptions.placeHolderDrawable);
+        } else if (bridgeOptions.placeHolderResId > 0) {
+            options.placeholder(bridgeOptions.placeHolderResId);
+        }
         return options;
     }
 

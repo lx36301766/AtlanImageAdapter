@@ -88,7 +88,6 @@ public class FrescoBridge implements IFrescoBridge {
 
     @Override
     public void display(Uri uri, ImageView imageView) {
-        display(uri, imageView, null);
     }
 
     @Override
@@ -102,7 +101,7 @@ public class FrescoBridge implements IFrescoBridge {
         }
     }
 
-    private GenericDraweeHierarchy buildGenericDraweeHierarchy(BridgeOptions bridgeOptions) {
+    protected GenericDraweeHierarchy buildGenericDraweeHierarchy(BridgeOptions bridgeOptions) {
         GenericDraweeHierarchy draweeHierarchy = new GenericDraweeHierarchyBuilder(mContext.getResources()).build();
         if (bridgeOptions != null) {
             RoundingParams roundingParams = new RoundingParams();
@@ -122,7 +121,7 @@ public class FrescoBridge implements IFrescoBridge {
         return draweeHierarchy;
     }
 
-    private DraweeController buildDraweeController(Uri uri, SimpleDraweeView draweeView, BridgeOptions bridgeOptions) {
+    protected DraweeController buildDraweeController(Uri uri, SimpleDraweeView draweeView, BridgeOptions bridgeOptions) {
         PipelineDraweeControllerBuilder controllerBuilder = Fresco.newDraweeControllerBuilder()
                 .setImageRequest(buildImageRequest(uri, bridgeOptions))
                 .setOldController(draweeView.getController());
@@ -132,7 +131,7 @@ public class FrescoBridge implements IFrescoBridge {
         return controllerBuilder.build();
     }
 
-    private ImageRequest buildImageRequest(Uri uri, BridgeOptions bridgeOptions) {
+    protected ImageRequest buildImageRequest(Uri uri, BridgeOptions bridgeOptions) {
         ImageRequestBuilder imageRequestBuilder = ImageRequestBuilder.newBuilderWithSource(uri);
         if (bridgeOptions != null) {
             if (bridgeOptions.blurRadius > 0) {
@@ -155,13 +154,15 @@ public class FrescoBridge implements IFrescoBridge {
     public void getBitmapFromUri(Uri uri, final BitmapLoader bitmapLoader) {
         checkNotNull(mContext, "mContext is null, please call initialize(context) before");
         checkNotNull(uri);
-        checkNotNull(bitmapLoader);
         ImagePipeline imagePipeline = Fresco.getImagePipeline();
         ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(uri).build();
         DataSource<CloseableReference<CloseableImage>> dataSource = imagePipeline.fetchDecodedImage(imageRequest, mContext);
         dataSource.subscribe(new BaseBitmapDataSubscriber() {
             @Override
             protected void onNewResultImpl(Bitmap bitmap) {
+                if (bitmapLoader == null) {
+                    return;
+                }
                 Bitmap destBmp;
                 if (bitmapLoader instanceof FrescoBitmapLoader) {
                     destBmp = bitmap;

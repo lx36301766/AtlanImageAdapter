@@ -6,8 +6,8 @@ image size process
 get Bitmap
 placeholder
 
-#Progress monitoring
 #gif
+#Progress monitoring
 #MemoryCache/DiskCache
 #preload
 

@@ -1,6 +1,5 @@
 package pl.atlantischi.ximagebridge.glide;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +38,6 @@ public class GlideBridge implements IGlideBridge {
 
     @Override
     public void display(Uri uri, ImageView imageView) {
-        display(uri, imageView, null);
     }
 
     @Override
@@ -55,7 +53,7 @@ public class GlideBridge implements IGlideBridge {
         builder.into(imageView);
     }
 
-    private RequestOptions buildRequestOptions(BridgeOptions bridgeOptions, Context context) {
+    protected RequestOptions buildRequestOptions(BridgeOptions bridgeOptions, Context context) {
         RequestOptions options = new RequestOptions();
         if (bridgeOptions.size != null && bridgeOptions.size.isValid()) {
             int imageWidth = bridgeOptions.size.width;
@@ -75,7 +73,7 @@ public class GlideBridge implements IGlideBridge {
     }
 
     @SuppressWarnings("unchecked")
-    private Transformation<Bitmap> buildTransformation(BridgeOptions bridgeOptions, Context context) {
+    protected Transformation<Bitmap> buildTransformation(BridgeOptions bridgeOptions, Context context) {
         List<Transformation<Bitmap>> transformationList = new ArrayList<>();
         if (bridgeOptions.blurRadius > 0) {
             transformationList.add(new BlurTransformation(context, bridgeOptions.blurRadius));
@@ -96,10 +94,12 @@ public class GlideBridge implements IGlideBridge {
     public void getBitmapFromUri(Uri uri, final BitmapLoader bitmapLoader) {
         checkNotNull(mContext, "mContext is null, please call initialize(context) before");
         checkNotNull(uri);
-        checkNotNull(bitmapLoader);
         Glide.with(mContext).asBitmap().load(uri).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                if (bitmapLoader == null) {
+                    return;
+                }
                 bitmapLoader.onBitmapLoaded(resource);
             }
         });

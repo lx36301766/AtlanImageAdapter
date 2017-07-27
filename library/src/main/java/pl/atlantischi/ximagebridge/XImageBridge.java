@@ -27,6 +27,7 @@ public class XImageBridge {
             "pl.atlantischi.ximagebridge.glide.GlideBridge",
             "pl.atlantischi.ximagebridge.picasso.PicassoBridge",
             "pl.atlantischi.ximagebridge.fresco.FrescoBridge",
+            "pl.atlantischi.ximagebridge.universalimageloader.UniversalImageLoaderBridge",
     };
 
     public static void initialize(Context context) {

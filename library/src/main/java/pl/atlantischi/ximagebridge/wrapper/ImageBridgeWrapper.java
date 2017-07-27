@@ -29,9 +29,7 @@ public class ImageBridgeWrapper implements ImageBridge {
 
     @Override
     public void display(Uri uri, ImageView imageView) {
-        if (mBase != null) {
-            mBase.display(uri, imageView);
-        }
+        display(uri, imageView, null);
     }
 
     public void display(Uri uri, ImageView imageView, BridgeOptions bridgeOptions) {

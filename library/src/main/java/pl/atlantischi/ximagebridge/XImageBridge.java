@@ -40,15 +40,15 @@ public class XImageBridge {
         if (mImageBridgeWrapper == null) {
             synchronized(XImageBridge.class) {
                 if (mImageBridgeWrapper == null) {
-                    ImageBridge baseBridge = findBridge();
-                    setBridge(baseBridge);
+                    ImageBridge defaultBridge = findDefaultBridge();
+                    setBridge(defaultBridge);
                 }
             }
         }
         return mImageBridgeWrapper;
     }
 
-    private static ImageBridge findBridge() {
+    private static ImageBridge findDefaultBridge() {
         ImageBridge imageBridge = null;
         for (String bridgeStr : mDefaultBridges) {
             try {

@@ -16,5 +16,3 @@ gif  // unsupport of picasso/uil
 #cache hit/miss
 #streaming fuzzy progressive
 #stop loading image
-
-test

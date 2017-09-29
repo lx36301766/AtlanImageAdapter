@@ -42,8 +42,7 @@ public class PicassoBridge implements IPicassoBridge {
     public void display(Uri uri, ImageView imageView, BridgeOptions bridgeOptions) {
         checkNotNull(uri);
         checkNotNull(imageView);
-        Context context = imageView.getContext();
-        RequestCreator requestCreator = buildRequestCreator(uri, bridgeOptions, context);
+        RequestCreator requestCreator = buildRequestCreator(uri, bridgeOptions, imageView.getContext());
         requestCreator.into(imageView);
     }
 
@@ -82,16 +81,16 @@ public class PicassoBridge implements IPicassoBridge {
     private Target mTarget;
 
     @Override
-    public void getBitmapFromUri(Uri uri, final BitmapLoader bitmapLoader) {
+    public void getBitmapFromUri(Uri uri, final BitmapCallback bitmapCallback) {
         checkNotNull(mContext, "mContext is null, please call initialize(context) before");
         checkNotNull(uri);
         mTarget = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                if (bitmapLoader == null) {
+                if (bitmapCallback == null) {
                     return;
                 }
-                bitmapLoader.onBitmapLoaded(bitmap);
+                bitmapCallback.onBitmapLoaded(bitmap);
             }
 
             @Override

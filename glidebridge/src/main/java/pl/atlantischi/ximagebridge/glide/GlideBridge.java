@@ -97,16 +97,16 @@ public class GlideBridge implements IGlideBridge {
     }
 
     @Override
-    public void getBitmapFromUri(Uri uri, final BitmapLoader bitmapLoader) {
+    public void getBitmapFromUri(Uri uri, final BitmapCallback bitmapCallback) {
         checkNotNull(mContext, "mContext is null, please call initialize(context) before");
         checkNotNull(uri);
         Glide.with(mContext).asBitmap().load(uri).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                if (bitmapLoader == null) {
+                if (bitmapCallback == null) {
                     return;
                 }
-                bitmapLoader.onBitmapLoaded(resource);
+                bitmapCallback.onBitmapLoaded(resource);
             }
         });
     }

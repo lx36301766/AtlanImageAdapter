@@ -155,7 +155,7 @@ public class FrescoBridge implements IFrescoBridge {
     }
 
     @Override
-    public void getBitmapFromUri(Uri uri, final BitmapLoader bitmapLoader) {
+    public void getBitmapFromUri(Uri uri, final BitmapCallback bitmapCallback) {
         checkNotNull(mContext, "mContext is null, please call initialize(context) before");
         checkNotNull(uri);
         ImagePipeline imagePipeline = Fresco.getImagePipeline();
@@ -164,11 +164,11 @@ public class FrescoBridge implements IFrescoBridge {
         dataSource.subscribe(new BaseBitmapDataSubscriber() {
             @Override
             protected void onNewResultImpl(Bitmap bitmap) {
-                if (bitmapLoader == null) {
+                if (bitmapCallback == null) {
                     return;
                 }
                 Bitmap destBmp;
-                if (bitmapLoader instanceof FrescoBitmapLoader) {
+                if (bitmapCallback instanceof FrescoBitmapCallback) {
                     destBmp = bitmap;
                 } else {
                     // You can not assign the bitmap to any variable not in the scope of the onNewResultImpl method.
@@ -179,7 +179,7 @@ public class FrescoBridge implements IFrescoBridge {
                     // https://github.com/facebook/fresco/issues/648
                     destBmp = bitmap.copy(bitmap.getConfig(), false);
                 }
-                bitmapLoader.onBitmapLoaded(destBmp);
+                bitmapCallback.onBitmapLoaded(destBmp);
             }
 
             @Override
@@ -189,7 +189,7 @@ public class FrescoBridge implements IFrescoBridge {
         }, UiThreadImmediateExecutorService.getInstance());
     }
 
-//    public void loadOriginalImage(String url, final BitmapLoader bitmapLoader, Executor executor) {
+//    public void loadOriginalImage(String url, final BitmapCallback bitmapLoader, Executor executor) {
 //        if (TextUtils.isEmpty(url)) {
 //            return;
 //        }

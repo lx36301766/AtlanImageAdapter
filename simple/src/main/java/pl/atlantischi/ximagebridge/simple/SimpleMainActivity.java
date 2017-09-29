@@ -68,6 +68,5 @@ public class SimpleMainActivity extends AppCompatActivity {
 //        options3.blurRadius = 10;
         options3.size = new Size(800, 600);
         XImageBridge.obtain().display(Uri.parse(jpg), iv3, options3);
-
     }
 }

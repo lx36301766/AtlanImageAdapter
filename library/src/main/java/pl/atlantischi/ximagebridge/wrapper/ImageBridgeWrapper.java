@@ -38,9 +38,9 @@ public class ImageBridgeWrapper implements ImageBridge {
         }
     }
 
-    public void getBitmapFromUri(Uri uri, ImageBridge.BitmapLoader bitmapLoader) {
+    public void getBitmapFromUri(Uri uri, BitmapCallback bitmapCallback) {
         if (mBase != null) {
-            mBase.getBitmapFromUri(uri, bitmapLoader);
+            mBase.getBitmapFromUri(uri, bitmapCallback);
         }
     }
 

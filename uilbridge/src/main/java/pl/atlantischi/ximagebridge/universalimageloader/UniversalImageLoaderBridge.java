@@ -1,24 +1,14 @@
 package pl.atlantischi.ximagebridge.universalimageloader;
 
-import java.io.File;
-
-import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
 import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -127,15 +117,15 @@ public class UniversalImageLoaderBridge implements IUniversalImageLoaderBridge {
     }
 
     @Override
-    public void getBitmapFromUri(Uri uri, final BitmapLoader bitmapLoader) {
+    public void getBitmapFromUri(Uri uri, final BitmapCallback bitmapCallback) {
         checkNotNull(uri);
         ImageLoader.getInstance().loadImage(uri.toString(), new ImageLoadingListenerImpl(){
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                if (bitmapLoader == null) {
+                if (bitmapCallback == null) {
                     return;
                 }
-                bitmapLoader.onBitmapLoaded(loadedImage);
+                bitmapCallback.onBitmapLoaded(loadedImage);
             }
         });
     }

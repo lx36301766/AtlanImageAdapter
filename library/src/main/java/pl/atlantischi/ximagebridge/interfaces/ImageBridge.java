@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.widget.ImageView;
-import pl.atlantischi.ximagebridge.XImageBridge;
 import pl.atlantischi.ximagebridge.options.BridgeOptions;
 
 /**
@@ -19,9 +18,9 @@ public interface ImageBridge {
 
     void display(Uri uri, ImageView imageView, BridgeOptions bridgeOptions);
 
-    void getBitmapFromUri(Uri uri, final BitmapLoader bitmapLoader);
+    void getBitmapFromUri(Uri uri, final BitmapCallback bitmapCallback);
 
-    interface BitmapLoader {
+    interface BitmapCallback {
         void onBitmapLoaded(Bitmap bitmap);
     }
 

@@ -12,8 +12,11 @@ public class BridgeOptions2 {
 
     private boolean isCircle;
     private int roundCorner;
+
     private int blurRadius;
+
     private Size size;
+
     private Drawable placeHolderDrawable;
     private int placeHolderResId;
 
@@ -50,8 +53,8 @@ public class BridgeOptions2 {
             return this;
         }
 
-        public Builder setImageSize(Size size) {
-            this.size = size;
+        public Builder setImageSize(int width, int height) {
+            this.size = new Size(width, height);
             return this;
         }
 

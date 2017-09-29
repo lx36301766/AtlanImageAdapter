@@ -1,1 +1,3 @@
-include ':simple', ':library', ':picassobridge', ':frescobridge', ':glidebridge', ':uilbridge'
+include ':simple', ':library'
+
+include ':picassobridge', ':frescobridge', ':glidebridge', ':uilbridge'

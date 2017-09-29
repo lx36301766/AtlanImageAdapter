@@ -1,5 +1,6 @@
 package pl.atlantischi.ximagebridge.fresco;
 
+import com.facebook.common.executors.UiThreadImmediateExecutorService;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -49,8 +50,8 @@ public class FrescoBridge implements IFrescoBridge {
     @Override
     public void initialize(Context context) {
         checkNotNull(context);
-        Fresco.initialize(context, buildImagePipelineConfig());
         mContext = context;
+        Fresco.initialize(context, buildImagePipelineConfig(context));
     }
 
     @Override
@@ -59,8 +60,8 @@ public class FrescoBridge implements IFrescoBridge {
         LayoutInflaterCompat.setFactory(LayoutInflater.from(activity), new LayoutInflaterFactory() {
             @Override
             public View onCreateView(View parent, String name, Context context, AttributeSet attrs) {
-                TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FrescoBridge);
-                boolean replace = a.getBoolean(R.styleable.FrescoBridge_replaceToDraweeView, defaultReplace);
+                TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.frescoBridge);
+                boolean replace = a.getBoolean(R.styleable.frescoBridge_replaceToDraweeView, defaultReplace);
                 a.recycle();
                 if ("ImageView".equals(name) && replace) {
                     return new SimpleDraweeView(context, attrs);
@@ -74,8 +75,8 @@ public class FrescoBridge implements IFrescoBridge {
         });
     }
 
-    private ImagePipelineConfig buildImagePipelineConfig() {
-        return ImagePipelineConfig.newBuilder(mContext)
+    private ImagePipelineConfig buildImagePipelineConfig(Context context) {
+        return ImagePipelineConfig.newBuilder(context)
                 .setDownsampleEnabled(true) //support png/webp/jpg with ResizeOptions
                 .setResizeAndRotateEnabledForNetwork(true)
                 .build();
@@ -127,6 +128,9 @@ public class FrescoBridge implements IFrescoBridge {
                 .setOldController(draweeView.getController());
         if (mSupportWrapContent) {
             controllerBuilder.setControllerListener(new WrapContentSupportControllerListener(draweeView));
+        }
+        if (bridgeOptions != null && bridgeOptions.showAsGif) {
+            controllerBuilder.setAutoPlayAnimations(true);
         }
         return controllerBuilder.build();
     }
@@ -182,7 +186,7 @@ public class FrescoBridge implements IFrescoBridge {
             protected void onFailureImpl(DataSource<CloseableReference<CloseableImage>> dataSource) {
 
             }
-        }, null);
+        }, UiThreadImmediateExecutorService.getInstance());
     }
 
 //    public void loadOriginalImage(String url, final BitmapLoader bitmapLoader, Executor executor) {

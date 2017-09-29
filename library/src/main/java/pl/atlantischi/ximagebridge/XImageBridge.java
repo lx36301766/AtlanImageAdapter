@@ -2,11 +2,11 @@ package pl.atlantischi.ximagebridge;
 
 import java.lang.reflect.Constructor;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import pl.atlantischi.ximagebridge.interfaces.ImageBridge;
-import pl.atlantischi.ximagebridge.options.BridgeOptions;
 import pl.atlantischi.ximagebridge.wrapper.ImageBridgeWrapper;
+
+import static pl.atlantischi.ximagebridge.util.Preconditions.*;
 
 /**
  * Created on 12/07/2017.
@@ -31,7 +31,9 @@ public class XImageBridge {
     };
 
     public static void initialize(Context context) {
-        obtain().initialize(context.getApplicationContext());
+        ImageBridge imageBridge = obtain();
+        checkNotNull(mImageBridgeWrapper, "Couldn't find ImageBridge");
+        imageBridge.initialize(context.getApplicationContext());
     }
 
     public static ImageBridge obtain() {

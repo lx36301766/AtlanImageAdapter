@@ -3,18 +3,18 @@ display image with url
 image corner
 Blur effect
 image size process
-get Bitmap
+get Bitmap # with sp size
 placeholder
 
-#gif
-#Progress monitoring
-#MemoryCache/DiskCache
-#preload
 
-#WebP
+gif  // unsupport of picasso/uil
+#Progress monitoring  // unsupport of picasso/glide
+#preload
+#okhttp/volley support
+#clear MemoryCache/DiskCache
+
 #cache hit/miss
 #streaming fuzzy progressive
 #stop loading image
-#okhttp/volley support
 
 test

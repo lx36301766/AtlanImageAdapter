@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 
-apply from: rootDir.absolutePath + "/gradle_config/base_config.gradle"
-apply from: rootDir.absolutePath + "/gradle_config/deps_config.gradle"
+apply from: rootDir.absolutePath + "/gradle/android_config.gradle"
 
 android {
 
@@ -13,14 +12,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile 'junit:junit:4.12'
-    compile "${DEPS.constraint_layout}"
-
     compile project(':library')
-
-    compile "${SQUAREUP.picasso}"
+    compile "${image.picasso}"
 }

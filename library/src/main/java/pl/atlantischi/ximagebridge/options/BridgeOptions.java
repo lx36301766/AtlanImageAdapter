@@ -40,4 +40,9 @@ public class BridgeOptions {
      */
     public int placeHolderResId;
 
+    /**
+     *
+     */
+    public boolean showAsGif;
+
 }

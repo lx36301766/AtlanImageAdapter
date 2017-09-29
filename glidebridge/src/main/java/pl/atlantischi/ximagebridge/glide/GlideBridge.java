@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -45,12 +46,17 @@ public class GlideBridge implements IGlideBridge {
         checkNotNull(uri);
         checkNotNull(imageView);
         final Context context = imageView.getContext();
-        RequestBuilder<Bitmap> builder = Glide.with(imageView).asBitmap().load(uri);
+        RequestManager requestManager = Glide.with(imageView);
+        requestManager.downloadOnly();
+        RequestBuilder<?> builder = requestManager.asBitmap();
         if (bridgeOptions != null) {
+            if (bridgeOptions.showAsGif) {
+                builder = requestManager.asGif();
+            }
             RequestOptions options = buildRequestOptions(bridgeOptions, context);
             builder.apply(options);
         }
-        builder.into(imageView);
+        builder.load(uri).into(imageView);
     }
 
     protected RequestOptions buildRequestOptions(BridgeOptions bridgeOptions, Context context) {

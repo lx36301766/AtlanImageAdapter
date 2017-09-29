@@ -2,6 +2,7 @@
 apply plugin: 'kotlin-android'
 
 apply from: rootDir.absolutePath + "/gradle/deps_config.gradle"
+apply from: rootDir.absolutePath + "/gradle/jcenter_config.gradle"
 
 android {
 

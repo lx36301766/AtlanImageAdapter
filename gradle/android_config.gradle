@@ -2,26 +2,26 @@
 apply plugin: 'kotlin-android'
 
 apply from: rootDir.absolutePath + "/gradle/deps_config.gradle"
-apply from: rootDir.absolutePath + "/gradle/jcenter_config.gradle"
 
 android {
 
-    compileSdkVersion Integer.parseInt("${COMPILE_SDK_VERSION}")
-    buildToolsVersion "${BUILD_TOOLS_VERSION}"
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion BUILD_TOOLS_VERSION
 
     lintOptions {
         abortOnError false
     }
 
     defaultConfig {
-        minSdkVersion Integer.parseInt("${MIN_SDK_VERSION}")
-        targetSdkVersion Integer.parseInt("${TARGET_SDK_VERSION}")
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
 
         def keystorePath = rootDir.absolutePath + "/gradle/keystore/atlantischi.jks"
+//        def keystorePath = "https://github.com/lx36301766/Atlantischi/raw/master/gradle/keystore/atlantischi.jks"
 
         debug {
             storeFile file(keystorePath)
@@ -70,3 +70,5 @@ dependencies {
     compile "${support_deps.supportV4}"
     compile "${view.constraint_layout}"
 }
+
+//apply from: rootDir.absolutePath + "/gradle/jcenter_config.gradle"

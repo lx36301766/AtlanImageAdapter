@@ -17,3 +17,5 @@ dependencies {
     compile "${image.glide}"
     annotationProcessor "${image.glide_compiler}"
 }
+
+apply from: rootDir.absolutePath + "/gradle/jfrog_bintray_release.gradle"

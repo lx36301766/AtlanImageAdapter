@@ -15,3 +15,5 @@ dependencies {
     compile "${support_deps.annotations}"
     compile "${log.timber}"
 }
+
+apply from: rootDir.absolutePath + "/gradle/novoda_bintray_release.gradle"

@@ -1,0 +1,21 @@
+
+apply plugin: 'com.novoda.bintray-release'
+
+publish {
+
+    artifactId = POM_ARTIFACT_ID // library的名字
+    publishVersion = POM_VERSION // 版本
+    desc = POM_DESCRIPTION // 描述
+    userOrg = rootProject.userOrg //用户所在组织
+    groupId = rootProject.groupId // 包名
+    website = rootProject.website
+    repoName = rootProject.repoName
+    uploadName = "${groupId}:${artifactId}"
+    dryRun = false
+
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    bintrayUser = properties.getProperty("BINTRAY_USER")
+    bintrayKey = properties.getProperty("BINTRAY_APIKEY")
+
+}

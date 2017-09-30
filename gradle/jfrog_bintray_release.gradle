@@ -5,31 +5,10 @@ apply plugin: 'com.jfrog.bintray'
 // 这个version是区分library版本的，因此当我们需要更新library时记得修改这个version
 version = "0.0.1"
 
-def siteUrl = 'https://github.com/lx36301766/XImageBridge'      // 项目的主页
-def gitUrl = 'https://github.com/lx36301766/XImageBridge.git'   // Git仓库的url
-
 group = "pl.atlantischi.ximagebriage" // Maven Group ID for the artifact，一般填你唯一的包名
 
-android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
-    resourcePrefix "xib_"
-    defaultConfig {
-        minSdkVersion 25
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
-    }
-    lintOptions {
-        abortOnError false
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-}
+def siteUrl = 'https://github.com/lx36301766/XImageBridge'      // 项目的主页
+def gitUrl = 'https://github.com/lx36301766/XImageBridge.git'   // Git仓库的url
 
 install {
     repositories.mavenInstaller {
@@ -38,8 +17,8 @@ install {
             project {
                 packaging 'aar'
                 // Add your description here
-                description 'image compat library for picasso, glide, fresco, UIL'
-                name 'image compat library for picasso, glide, fresco, UIL'  //项目描述
+                description 'image compat library for picasso, glide, fresco, UIL'  //项目描述
+                name 'XImageBriage'
                 url siteUrl
                 // Set your license
                 licenses {
@@ -50,8 +29,8 @@ install {
                 }
                 developers {
                     developer { // 开发者信息
-                        id 'lx36301766'
-                        name 'lx'
+                        id 'lx364301766'
+                        name 'xuanl'
                         email 'lx364301766@gmail.com'
                     }
                 }
@@ -96,7 +75,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"  //发布到Bintray的那个仓库里，默认账户有四个库，我们这里上传到maven库
-        name = "XImageBriage"  //发布到Bintray上的项目名字
+        name = "ximagebriage"  //发布到Bintray上的项目名字
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
@@ -104,3 +83,5 @@ bintray {
     }
 }
 
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'

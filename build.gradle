@@ -17,6 +17,8 @@ buildscript {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
 
+        classpath 'com.novoda:bintray-release:0.5.0'
+
     }
 }
 
@@ -29,4 +31,11 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    userOrg = 'lx364301766'
+    groupId = 'pl.atlantischi.ximagebriage'
+    website = 'https://github.com/lx36301766/XImageBridge'
+    repoName = 'maven'
 }

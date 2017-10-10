@@ -20,22 +20,26 @@ android {
 
     signingConfigs {
 
-        def keystorePath = rootDir.absolutePath + "/gradle/keystore/atlantischi.jks"
-//        def keystorePath = "https://github.com/lx36301766/Atlantischi/raw/master/gradle/keystore/atlantischi.jks"
+        def KEY_STORE_PATH = rootDir.absolutePath + "/gradle/keystore/atlantischi.jks"
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def KEY_ALIAS = properties.getProperty("KEY_ALIAS")
+        def KEY_PASSWORD = properties.getProperty("KEY_PASSWORD")
 
         debug {
-            storeFile file(keystorePath)
-            storePassword "5393147"
-            keyAlias "xuanl"
-            keyPassword "5393147"
+            storeFile file(KEY_STORE_PATH)
+            storePassword KEY_PASSWORD
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
             v2SigningEnabled false
         }
 
         release {
-            storeFile file(keystorePath)
-            storePassword "5393147"
-            keyAlias "xuanl"
-            keyPassword "5393147"
+            storeFile file(KEY_STORE_PATH)
+            storePassword KEY_PASSWORD
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
             v2SigningEnabled false
         }
     }
@@ -70,5 +74,3 @@ dependencies {
     compile "${support_deps.supportV4}"
     compile "${view.constraint_layout}"
 }
-
-//apply from: rootDir.absolutePath + "/gradle/jcenter_config.gradle"

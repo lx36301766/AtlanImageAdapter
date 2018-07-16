@@ -13,7 +13,7 @@ android {
 }
 
 dependencies {
-    compile project(':library')
+    implementation project(':library')
 
-    compile "${image.fresco}"
+    implementation "${image.fresco}"
 }

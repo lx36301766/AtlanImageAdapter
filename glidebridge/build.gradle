@@ -13,10 +13,10 @@ android {
 }
 
 dependencies {
-    compile project(':library')
+    implementation project(':library')
 
-    compile "${image.glide}"
+    implementation "${image.glide}"
     annotationProcessor "${image.glide_compiler}"
 }
 
-apply from: rootDir.absolutePath + "/gradle/jfrog_bintray_release.gradle"
+//apply from: rootDir.absolutePath + "/gradle/jfrog_bintray_release.gradle"

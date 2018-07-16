@@ -13,6 +13,6 @@ android {
 }
 
 dependencies {
-    compile project(':library')
-    compile "${image.picasso}"
+    implementation project(':library')
+    implementation "${image.picasso}"
 }

@@ -14,8 +14,8 @@ android {
 }
 
 dependencies {
-//    compile project(':glidebridge')
-//    compile project(':picassobridge')
-//    compile project(':frescobridge')
-    compile project(':uilbridge')
+//    implementation project(':glidebridge')
+//    implementation project(':picassobridge')
+//    implementation project(':frescobridge')
+    implementation project(':uilbridge')
 }

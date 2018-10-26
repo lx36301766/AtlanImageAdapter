@@ -1,11 +1,13 @@
 ext {
 
+    sign_apk = rootDir.absolutePath + "/signAPK"
+
     //module gradle apply from
-    def gradleDir = rootDir.absolutePath + "/gradle/"
+    gradle_root = rootDir.absolutePath + "/gradle"
     gradles = [
-            base_config: gradleDir + "android_config.gradle",
-            AndResGuard: gradleDir + "AndResGuard.gradle",
-            kotlin_deps: gradleDir + "kotlin_deps.gradle",
+            base_config: gradle_root + "/android_config.gradle",
+            AndResGuard: gradle_root + "/AndResGuard.gradle",
+            kotlin_java: gradle_root + "/kotlin_java.gradle",
     ]
 
     support_version = '25.3.1'
@@ -25,10 +27,14 @@ ext {
     network = [
             volley                    : "com.android.volley:volley:${volley_version}",
             okhttp3                   : "com.squareup.okhttp3:okhttp:${okhttp_version}",
+
             retrofit2                 : "com.squareup.retrofit2:retrofit:${retrofit_version}",
             retrofit2_gson_convert    : "com.squareup.retrofit2:converter-gson:${retrofit_version}",
+            retrofit2_moshi_convert   : "com.squareup.retrofit2:converter-moshi:${retrofit_version}",
             retrofit2_adapter_rxjava  : "com.squareup.retrofit2:adapter-rxjava:${retrofit_version}",
             retrofit2_adapter_rxjava2 : "com.squareup.retrofit2:adapter-rxjava2:${retrofit_version}",
+            retrofit2_protobuf_convert: "com.squareup.retrofit2:converter-protobuf:${retrofit_version}",
+            retrofit2_xml_convert     : "com.squareup.retrofit2:converter-simplexml:${retrofit_version}",
             retrofit2_fastjson_convert: "org.ligboy.retrofit2:converter-fastjson:2.1.0",
     ]
 
@@ -47,11 +53,19 @@ ext {
             universal_image_loader: "com.nostra13.universalimageloader:universal-image-loader:${uil_version}",
     ]
 
-    rx = [
-            rxandroid: 'io.reactivex:rxandroid:1.2.1',
-            rxjava   : 'io.reactivex:rxjava:1.1.6',
-            rxjava2  : 'io.reactivex.rxjava2:rxjava:2.0.0',
+    //butterknife_version = '8.8.1'
+    annotation = [
+            butterknife         : "com.jakewharton:butterknife:${butterknife_version}",
+            butterknife_compiler: "com.jakewharton:butterknife-compiler:${butterknife_version}"
     ]
+
+    rx = [
+            rxandroid : 'io.reactivex:rxandroid:1.2.1',
+            rxandroid2: 'io.reactivex.rxjava2:rxandroid:2.0.1',
+            rxjava    : 'io.reactivex:rxjava:1.3.0',
+            rxjava2   : 'io.reactivex.rxjava2:rxjava:2.0.7',
+    ]
+
 
     json = [
             gson            : "com.google.code.gson:gson:2.8.1",
@@ -61,9 +75,9 @@ ext {
     ]
 
     log = [
-            timber: "com.jakewharton.timber:timber:4.5.1",
+            timber: "com.jakewharton.timber:timber:4.6.0",
             klog  : "com.github.zhaokaiqiang.klog:library:1.6.0",
-            xlog  : "com.elvishew:xlog:1.3.0",
+            xlog  : "com.elvishew:xlog:1.4.0",
             logger: "com.orhanobut:logger:2.1.1",
     ]
 
@@ -73,6 +87,7 @@ ext {
             constraint_layout: "com.android.support.constraint:constraint-layout:1.0.2",
     ]
 
+    //robust_version = '0.6.18'
 //    hotfix = [
 //            robust: "com.meituan.robust:robust:$robust_version",
 //    ]
@@ -87,9 +102,10 @@ ext {
             rvdatabinding: "com.google.android.agera:rvdatabinding:${google_agera_version}",
     ]
 
+    //kotlin_version = '1.1.51'
     stetho_version = '1.5.0'
     tools = [
-            kotlin       : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
+            kotlin       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             javapoet     : "com.squareup:javapoet:1.7.0",
             guava        : "com.google.guava:guava:22.0",
             guava_android: "com.google.guava:guava:22.0-android",
@@ -100,7 +116,16 @@ ext {
     other_deps = [
             slimadapter: "net.idik:slimadapter:2.1.0",
             okio       : "com.squareup.okio:okio:1.13.0",
-            kotlin     : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
+            protobuf   : "com.google.protobuf:protobuf-lite:3.0.0",
+    ]
+
+    map = [
+            aMaplocation        : "com.amap.api:location:latest.integration",
+            aMap3d              : "com.amap.api:3dmap:latest.integration",
+            aMapSearch          : "com.amap.api:search:latest.integration",
+
+            googleMap           : "com.google.android.gms:play-services-maps:15.0.1",
+            mapBox              : "com.mapbox.mapboxsdk:mapbox-android-sdk:6.1.3",
     ]
 
 }

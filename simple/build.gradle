@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
-apply from: rootDir.absolutePath + "/gradle/android_config.gradle"
+//apply from: rootDir.absolutePath + "/gradle/android_config.gradle"
+apply from: 'https://raw.githubusercontent.com/lx36301766/Atlantischi/master/gradle/android_config.gradle'
 
 android {
 
@@ -13,8 +14,8 @@ android {
 }
 
 dependencies {
-//    compile project(':glidebridge')
-//    compile project(':picassobridge')
-//    compile project(':frescobridge')
-    compile project(':uilbridge')
+//    implementation project(':glidebridge')
+//    implementation project(':picassobridge')
+//    implementation project(':frescobridge')
+    implementation project(':uilbridge')
 }

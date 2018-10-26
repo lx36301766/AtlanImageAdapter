@@ -3,10 +3,12 @@
 buildscript {
 
     ext.kotlin_version = '1.2.51'
+    ext.butterknife_version = '8.5.1'
 
     repositories {
         jcenter()
         mavenCentral()
+        maven { url "https://jitpack.io" }
         google()
     }
     dependencies {
@@ -15,10 +17,10 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
 
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-
-        classpath 'com.novoda:bintray-release:0.5.0'
+//        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+//        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+//
+//        classpath 'com.novoda:bintray-release:0.5.0'
 
     }
 }
@@ -27,6 +29,7 @@ allprojects {
     repositories {
         jcenter()
         mavenCentral()
+        maven { url "https://jitpack.io" }
         google()
     }
 }

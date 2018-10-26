@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 
-apply from: rootDir.absolutePath + "/gradle/android_config.gradle"
+//apply from: rootDir.absolutePath + "/gradle/android_config.gradle"
+apply from: 'https://raw.githubusercontent.com/lx36301766/Atlantischi/master/gradle/android_config.gradle'
 
 android {
 
@@ -12,7 +13,7 @@ android {
 }
 
 dependencies {
-    compile project(':library')
+    implementation project(':library')
 
-    compile "${image.fresco}"
+    implementation "${image.fresco}"
 }

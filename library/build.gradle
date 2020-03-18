@@ -8,13 +8,17 @@ android {
     defaultConfig {
         versionCode 1
         versionName "1.0"
+
     }
 
 }
 
 dependencies {
-    implementation "${support_deps.annotations}"
-    implementation "${log.timber}"
+    api "${support_deps.annotations}"
+    api "${log.timber}"
+
+    api 'com.google.auto.service:auto-service:1.0-rc5'
+//    annotationProcessor 'com.google.auto.service:auto-service-annotations:1.0-rc5'
 }
 
 //apply from: rootDir.absolutePath + "/gradle/novoda_bintray_release.gradle"

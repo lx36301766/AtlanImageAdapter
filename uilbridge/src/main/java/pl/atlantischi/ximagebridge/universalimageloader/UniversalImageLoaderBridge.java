@@ -1,5 +1,6 @@
 package pl.atlantischi.ximagebridge.universalimageloader;
 
+import com.google.auto.service.AutoService;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -16,6 +17,7 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import pl.atlantischi.ximagebridge.interfaces.IUniversalImageLoaderBridge;
+import pl.atlantischi.ximagebridge.interfaces.ImageBridge;
 import pl.atlantischi.ximagebridge.options.BridgeOptions;
 import pl.atlantischi.ximagebridge.universalimageloader.processor.BlurProcessor;
 
@@ -25,6 +27,7 @@ import static pl.atlantischi.ximagebridge.util.Preconditions.*;
  * Created by admin on 2017/7/7.
  */
 
+@AutoService(ImageBridge.class)
 public class UniversalImageLoaderBridge implements IUniversalImageLoaderBridge {
 
     @Override

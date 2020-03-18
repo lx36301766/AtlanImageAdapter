@@ -17,6 +17,7 @@ import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
+import com.google.auto.service.AutoService;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,6 +34,7 @@ import android.widget.ImageView;
 import pl.atlantischi.ximagebridge.fresco.listeners.WrapContentSupportControllerListener;
 import pl.atlantischi.ximagebridge.fresco.processors.BlurPostprocessor;
 import pl.atlantischi.ximagebridge.interfaces.IFrescoBridge;
+import pl.atlantischi.ximagebridge.interfaces.ImageBridge;
 import pl.atlantischi.ximagebridge.options.BridgeOptions;
 
 import static com.facebook.common.internal.Preconditions.*;
@@ -41,6 +43,7 @@ import static com.facebook.common.internal.Preconditions.*;
  * Created by admin on 2017/7/7.
  */
 
+@AutoService(ImageBridge.class)
 public class FrescoBridge implements IFrescoBridge {
 
     private Context mContext;

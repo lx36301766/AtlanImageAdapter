@@ -1,6 +1,7 @@
 package pl.atlantischi.ximagebridge;
 
 import java.lang.reflect.Constructor;
+import java.util.ServiceLoader;
 
 import android.content.Context;
 import pl.atlantischi.ximagebridge.interfaces.ImageBridge;
@@ -23,12 +24,12 @@ public class XImageBridge {
 
     private static ImageBridgeWrapper mImageBridgeWrapper;
 
-    private static String[] mDefaultBridges = new String[] {
-            "pl.atlantischi.ximagebridge.glide.GlideBridge",
-            "pl.atlantischi.ximagebridge.picasso.PicassoBridge",
-            "pl.atlantischi.ximagebridge.fresco.FrescoBridge",
-            "pl.atlantischi.ximagebridge.universalimageloader.UniversalImageLoaderBridge",
-    };
+//    private static String[] mDefaultBridges = new String[] {
+//            "pl.atlantischi.ximagebridge.glide.GlideBridge",
+//            "pl.atlantischi.ximagebridge.picasso.PicassoBridge",
+//            "pl.atlantischi.ximagebridge.fresco.FrescoBridge",
+//            "pl.atlantischi.ximagebridge.universalimageloader.UniversalImageLoaderBridge",
+//    };
 
     public static void initialize(Context context) {
         ImageBridge imageBridge = obtain();
@@ -49,20 +50,22 @@ public class XImageBridge {
     }
 
     private static ImageBridge findDefaultBridge() {
-        ImageBridge imageBridge = null;
-        for (String bridgeStr : mDefaultBridges) {
-            try {
-                Class<?> bridgeClass = Class.forName(bridgeStr);
-                if (ImageBridge.class.isAssignableFrom(bridgeClass)) {
-                    Constructor<?> constructor = bridgeClass.getConstructor();
-                    imageBridge = (ImageBridge) constructor.newInstance();
-                    break;
-                }
-            } catch (Exception e) {
-                //e.printStackTrace();
-            }
-        }
-        return imageBridge;
+//        ImageBridge imageBridge = null;
+//        for (String bridgeStr : mDefaultBridges) {
+//            try {
+//                Class<?> bridgeClass = Class.forName(bridgeStr);
+//                if (ImageBridge.class.isAssignableFrom(bridgeClass)) {
+//                    Constructor<?> constructor = bridgeClass.getConstructor();
+//                    imageBridge = (ImageBridge) constructor.newInstance();
+//                    break;
+//                }
+//            } catch (Exception e) {
+//                //e.printStackTrace();
+//            }
+//        }
+//        return imageBridge;
+        ServiceLoader<ImageBridge> loader = ServiceLoader.load(ImageBridge.class);
+        return loader.iterator().next();
     }
 
     public static void setBridge(ImageBridge imageBridge) {

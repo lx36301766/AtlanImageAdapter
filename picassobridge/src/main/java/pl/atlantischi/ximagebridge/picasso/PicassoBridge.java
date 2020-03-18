@@ -3,6 +3,7 @@ package pl.atlantischi.ximagebridge.picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.auto.service.AutoService;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
@@ -14,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 import pl.atlantischi.ximagebridge.interfaces.IPicassoBridge;
+import pl.atlantischi.ximagebridge.interfaces.ImageBridge;
 import pl.atlantischi.ximagebridge.options.BridgeOptions;
 import pl.atlantischi.ximagebridge.picasso.transformation.BlurTransformation;
 import pl.atlantischi.ximagebridge.picasso.transformation.CircleTransform;
@@ -25,6 +27,7 @@ import static pl.atlantischi.ximagebridge.util.Preconditions.*;
  * Created by admin on 2017/7/7.
  */
 
+@AutoService(ImageBridge.class)
 public class PicassoBridge implements IPicassoBridge {
 
     private Context mContext;

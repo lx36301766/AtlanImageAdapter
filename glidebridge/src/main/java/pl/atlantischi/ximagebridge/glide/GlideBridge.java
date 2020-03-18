@@ -13,6 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.auto.service.AutoService;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -20,6 +21,7 @@ import android.net.Uri;
 import android.widget.ImageView;
 import pl.atlantischi.ximagebridge.glide.transformation.BlurTransformation;
 import pl.atlantischi.ximagebridge.interfaces.IGlideBridge;
+import pl.atlantischi.ximagebridge.interfaces.ImageBridge;
 import pl.atlantischi.ximagebridge.options.BridgeOptions;
 
 import static com.bumptech.glide.util.Preconditions.*;
@@ -28,6 +30,7 @@ import static com.bumptech.glide.util.Preconditions.*;
  * Created by admin on 2017/7/22.
  */
 
+@AutoService(ImageBridge.class)
 public class GlideBridge implements IGlideBridge {
 
     private Context mContext;
